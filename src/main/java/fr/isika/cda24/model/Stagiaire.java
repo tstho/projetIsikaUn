@@ -37,29 +37,29 @@ public class Stagiaire {
 		this.prenom = prenom;
 	}
 
-//	public int getDepartement() {
-//		return departement;
-//	}
-//
-//	public void setDepartement(int departement) {
-//		this.departement = departement;
-//	}
-//
-//	public String getFormation() {
-//		return formation;
-//	}
-//
-//	public void setFormation(String formation) {
-//		this.formation = formation;
-//	}
-//
-//	public int getAnnee() {
-//		return annee;
-//	}
-//
-//	public void setAnnee(int annee) {
-//		this.annee = annee;
-//	}
+	public String getDepartement() {
+		return departement;
+	}
+
+	public void setDepartement(String departement) {
+		this.departement = departement;
+	}
+
+	public String getFormation() {
+		return formation;
+	}
+
+	public void setFormation(String formation) {
+		this.formation = formation;
+	}
+
+	public String getAnnee() {
+		return annee;
+	}
+
+	public void setAnnee(String annee) {
+		this.annee = annee;
+	}
 
 	//methode toString
 	@Override
