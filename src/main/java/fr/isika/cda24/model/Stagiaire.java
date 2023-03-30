@@ -1,18 +1,23 @@
 package fr.isika.cda24.model;
 
-public class Stagiaire extends Promo{
+public class Stagiaire {
 	
 	//attributs
 	private String nom;
 	private String prenom;
-	private int departement;
+	private String departement;
+	private String formation;
+	private String annee;
 	
 	//constructeur
-	public Stagiaire(String nomFormation, int numPromo, int anneeEntree, String nom, String prenom, int departement) {
-		super(nomFormation, numPromo, anneeEntree);
+
+	public Stagiaire(String nom, String prenom, String departement, String formation, String annee) {
+		super();
 		this.nom = nom;
 		this.prenom = prenom;
 		this.departement = departement;
+		this.formation = formation;
+		this.annee = annee;
 	}
 
 	//getters & setters
@@ -20,37 +25,49 @@ public class Stagiaire extends Promo{
 		return nom;
 	}
 
-
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
-
 
 	public String getPrenom() {
 		return prenom;
 	}
 
-
 	public void setPrenom(String prenom) {
 		this.prenom = prenom;
 	}
 
-
-	public int getDepartement() {
-		return departement;
-	}
-
-
-	public void setDepartement(int departement) {
-		this.departement = departement;
-	}
-
+//	public int getDepartement() {
+//		return departement;
+//	}
+//
+//	public void setDepartement(int departement) {
+//		this.departement = departement;
+//	}
+//
+//	public String getFormation() {
+//		return formation;
+//	}
+//
+//	public void setFormation(String formation) {
+//		this.formation = formation;
+//	}
+//
+//	public int getAnnee() {
+//		return annee;
+//	}
+//
+//	public void setAnnee(int annee) {
+//		this.annee = annee;
+//	}
 
 	//methode toString
 	@Override
 	public String toString() {
-		return "Stagiaire [nom=" + nom + ", prenom=" + prenom + ", departement=" + departement + "] " + super.toString();
+		return "Stagiaire [nom=" + nom + ", prenom=" + prenom + ", departement=" + departement + ", formation="
+				+ formation + ", annee=" + annee + "]";
 	}
+	
 	
 
 
