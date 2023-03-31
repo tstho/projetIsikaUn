@@ -6,47 +6,51 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ArbreBinaireRecherche {
+	//attributs
 	private Noeud racine;
 
+	//constructeur
 	public ArbreBinaireRecherche() {
 		this.racine = null;
 	}
 
-	public void ecritureFichier (Stagiaire stagiaire) {
-		if ( racine == null) {
-			racine = new Noeud(stagiaire);
-			racine.ecritureStagiaire(stagiaire);
-		}else {
-			this.racine.inserer(stagiaire, 0);
-		}
-		
-		
+	// Getters et Setters
+	public Noeud getRacine() {
+		return racine;
+	}
+
+	public void setRacine(Noeud racine) {
+		this.racine = racine;
 	}
 	
-	public Noeud lireUnStagiaire(int index) {
+	//methode pour ajouter un stagiaire à l'arbre
+	public void ajoutStagiaire (Stagiaire stagiaire) {
+		//on vérifie s'l y a une racine
+		if ( racine == null) {
+			//s'il n'y en a pas on créé le premier noeud et on l'affecte en racine de l'arbre
+			racine = new Noeud(stagiaire);
+			//on écrit le stagiaire dans le fichier
+			racine.ecritureStagiaire(stagiaire);
+		}else {
+			//s'il y a déjà une racine, on insert le nouveau stagiaire dans l'arbre
+			
+			this.racine.inserer(stagiaire, 0);
+		}
+	}
+	
+	//methode pour lire un stagiaire dans l'arbre
+	public Noeud lireUnNoeud(int index) {
+		//on vérifie s'l y a une racine
 		if ( racine == null) {
 			System.out.println("l'arbre est vide");
 			return null;
 		}else {
-			return racine.lireUnStagiaire(index);
+			return racine.lireUnNoeud(index);
 		}
 	}
 	
-	
-	
-	// Appel de la méthode pour insérer un noeud
-//    public void inserer(Stagiaire stagiaire) {
-//        Noeud nouveauNoeud = new Noeud(stagiaire);
-//        if (racine == null) {
-//            racine = nouveauNoeud;
-//        } else {
-//            racine.inserer(nouveauNoeud);
-//        }
-//    }
-//
-//    
-//    
-//    // Recherche (tous les noeud ayant le même nom)
+	    
+	//Recherche (tous les noeud ayant le même nom)
 //    public ArrayList<Stagiaire> rechercherTous(String nom) {
 //        ArrayList<Stagiaire> resultat = new ArrayList<>();
 //        rechercherTous(nom, racine, resultat);
@@ -107,13 +111,5 @@ public class ArbreBinaireRecherche {
 //		}
 //	}
 
-	// Getters et Setters
-	public Noeud getRacine() {
-		return racine;
-	}
-
-	public void setRacine(Noeud racine) {
-		this.racine = racine;
-	}
 
 }

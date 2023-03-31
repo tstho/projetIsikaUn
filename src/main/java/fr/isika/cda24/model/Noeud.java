@@ -1,15 +1,17 @@
 package fr.isika.cda24.model;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 public class Noeud {
-	
-	public final static int TAILLE_NOEUD_OCTET = Stagiaire.TAILLE_STAGIAIRE_OCTET + 4*3;
-	
+
+	public final static int TAILLE_NOEUD_OCTET = Stagiaire.TAILLE_STAGIAIRE_OCTET + 4 * 3;
+
 	private Stagiaire stagiaire;
 	private int gauche;
 	private int droit;
@@ -22,15 +24,13 @@ public class Noeud {
 		this.doublon = -1;
 	}
 
-	
 	public Noeud(Stagiaire stagiaire, int gauche, int droit, int doublon) {
-		
+
 		this.stagiaire = stagiaire;
 		this.gauche = gauche;
 		this.droit = droit;
 		this.doublon = doublon;
 	}
-
 
 	public Stagiaire getStagiaire() {
 		return stagiaire;
@@ -84,8 +84,8 @@ public class Noeud {
 	}
 
 	// methode pour lire un stagiaire à partir d'un index dans le fichier
-	public Noeud lireUnStagiaire(int index) {
-		
+	public Noeud lireUnNoeud(int index) {
+
 		Noeud noeudLu;
 		Stagiaire stagiaire;
 		String nom = "";
@@ -96,7 +96,7 @@ public class Noeud {
 		int gauche = -1;
 		int droit = -1;
 		int doublon = -1;
-		
+
 		try {
 			RandomAccessFile raf = new RandomAccessFile("src/fichiers/stagiaires.bin", "rw");
 			// on se place à l'index ou on veut lire le stagiaire
@@ -131,55 +131,84 @@ public class Noeud {
 		return noeudLu;
 	}
 
-	// Methode insérer stagiaire dans arbre
+	// Methode pour insérer un stagiaire dans l'arbre
 	public void inserer(Stagiaire nouveauStagiaire, int indexCompare) {
-		int index;
-		try {
-			RandomAccessFile raf = new RandomAccessFile("src/fichiers/stagiaires.bin", "rw");
-			// calcule l'index du nouveau stagiaire
-			index = (int) (raf.length() / Stagiaire.TAILLE_STAGIAIRE_OCTET);
+
+		// Lecture du Stagiaire à comparer
+		Noeud noeudCompare = lireUnNoeud(indexCompare);
+		// calcul de l'index à comparer en octets
+		int indexCompareOctet = indexCompare * TAILLE_NOEUD_OCTET;
+		//récupération index du nouveau stagiaire
+		int index = calculIndexFin();
+
+		//comparaison des noms des stagiaires
+		if (nouveauStagiaire.getNom().compareTo(noeudCompare.stagiaire.getNom()) < 0) {
 			
-			if (nouveauStagiaire.getNom().compareTo(this.stagiaire.getNom()) < 0) {
-				if (this.gauche == -1) {
-					this.gauche = index; 
-					//on place le curseur à l'endroit où on veut modifier l'index
-					raf.seek(indexCompare + Stagiaire.TAILLE_STAGIAIRE_OCTET);
-					//On supprime l'index déjà présent
-					raf.skipBytes(4);
-					//On écrit l'index du nouveau stagiaire
+			if (noeudCompare.gauche == -1) {
+				noeudCompare.gauche = index;
+				try {
+					RandomAccessFile raf = new RandomAccessFile("src/fichiers/stagiaires.bin", "rw");
+					// on place le curseur au niveau du fils gauche
+					raf.seek(indexCompareOctet + Stagiaire.TAILLE_STAGIAIRE_OCTET);
+					// On écrit l'index du nouveau stagiaire
 					raf.writeInt(index);
-					//On écrit le nouveau stagiaire à la fin du fichier
-					ecritureStagiaire(nouveauStagiaire);
-				} else {
-					raf.seek(this.gauche);
-					inserer(nouveauStagiaire, this.gauche);
+					raf.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
+				// On écrit le nouveau stagiaire à la fin du fichier
+				ecritureStagiaire(nouveauStagiaire);
 			} else {
-				if (this.droit == -1) {
-					this.droit = index;
-					raf.seek(indexCompare + Stagiaire.TAILLE_STAGIAIRE_OCTET + 4);
-					raf.skipBytes(4);
-					raf.writeInt(index);
-					ecritureStagiaire(nouveauStagiaire);
-				} else {
-					raf.seek(this.droit);
-					inserer(nouveauStagiaire, this.droit);
-				}
+				inserer(nouveauStagiaire, noeudCompare.gauche);
 			}
-			raf.close();
+			
+		} else {
+			
+			if (noeudCompare.droit == -1) {
+				
+				noeudCompare.droit = index;
+				try {
+					RandomAccessFile raf = new RandomAccessFile("src/fichiers/stagiaires.bin", "rw");
+					// on place le curseur au niveau du fils droit
+					raf.seek(indexCompareOctet + Stagiaire.TAILLE_STAGIAIRE_OCTET + 4);
+					// On écrit l'index du nouveau stagiaire
+					raf.writeInt(index);
+					raf.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				ecritureStagiaire(nouveauStagiaire);
+				
+			} else {
+				
+				inserer(nouveauStagiaire, noeudCompare.droit);
+			}
+		}
+
+	}
+	//méthode pour calculer l'index quand on se place à la fin du fichier
+	public int calculIndexFin () {
+		int index = 0;
+		try {
+			InputStream inputStream = new FileInputStream("src/fichiers/stagiaires.bin");
+			// lecture du nombre de bytes dans le fichier
+			index = inputStream.available();
+			inputStream.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return index / TAILLE_NOEUD_OCTET;
+		
 	}
-
 
 	@Override
 	public String toString() {
-		return "Noeud [stagiaire=" + stagiaire + ", gauche=" + gauche
-				+ ", droit=" + droit + ", doublon=" + doublon+ "]";
+		return "Noeud [stagiaire=" + stagiaire + ", gauche=" + gauche + ", droit=" + droit + ", doublon=" + doublon
+				+ "]";
 	}
-	
 
 //    public Stagiaire rechercher(String nom) {
 //        if (nom.compareTo(stagiaire.getNom()) == 0) {
