@@ -19,7 +19,7 @@ public class Lanceur {
 
 		// charger les stagiaires depuis le fichier
 		try {
-			FileReader fr = new FileReader("C:\\Users\\tstho\\Documents\\ISIKA\\10_Projet1\\DIXSTAGIAIRES.DON");
+			FileReader fr = new FileReader("C:\\Users\\tstho\\Documents\\ISIKA\\10_Projet1\\DOUZESTAGIAIRES.DON");
 			BufferedReader br = new BufferedReader(fr);
 
 			String nom;

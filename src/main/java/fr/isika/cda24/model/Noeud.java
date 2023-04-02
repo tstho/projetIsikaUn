@@ -83,7 +83,7 @@ public class Noeud {
 		}
 	}
 
-	// methode pour lire un stagiaire à partir d'un index dans le fichier
+	// methode pour lire un noeud à partir d'un index dans le fichier
 	public Noeud lireUnNoeud(int index) {
 
 		Noeud noeudLu;
@@ -140,9 +140,11 @@ public class Noeud {
 		int indexCompareOctet = indexCompare * TAILLE_NOEUD_OCTET;
 		//récupération index du nouveau stagiaire
 		int index = calculIndexFin();
-
+		
+		int comparaison = nouveauStagiaire.getNomLong().compareTo(noeudCompare.stagiaire.getNom());
+		
 		//comparaison des noms des stagiaires
-		if (nouveauStagiaire.getNom().compareTo(noeudCompare.stagiaire.getNom()) < 0) {
+		if (comparaison < 0) {
 			
 			if (noeudCompare.gauche == -1) {
 				noeudCompare.gauche = index;
@@ -163,7 +165,7 @@ public class Noeud {
 				inserer(nouveauStagiaire, noeudCompare.gauche);
 			}
 			
-		} else {
+		} else if(comparaison>0){
 			
 			if (noeudCompare.droit == -1) {
 				
@@ -184,6 +186,27 @@ public class Noeud {
 			} else {
 				
 				inserer(nouveauStagiaire, noeudCompare.droit);
+			}
+		}else {
+			if (noeudCompare.doublon == -1) {
+				
+				noeudCompare.doublon = index;
+				try {
+					RandomAccessFile raf = new RandomAccessFile("src/fichiers/stagiaires.bin", "rw");
+					// on place le curseur au niveau du doublon
+					raf.seek(indexCompareOctet + Stagiaire.TAILLE_STAGIAIRE_OCTET + 4 + 4);
+					// On écrit l'index du nouveau stagiaire
+					raf.writeInt(index);
+					raf.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				ecritureStagiaire(nouveauStagiaire);
+				
+			} else {
+				
+				inserer(nouveauStagiaire, noeudCompare.doublon);
 			}
 		}
 
