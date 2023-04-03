@@ -1,7 +1,12 @@
 package fr.isika.cda24.model;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.RandomAccessFile;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,10 +28,22 @@ public class ArbreBinaireRecherche {
 		this.racine = racine;
 	}
 
+	//méthode pour supprimer le fichier binaire si il existe déjà
+	public void supprimerFichier () {
+		String file_name = "src/fichiers/stagiaires.bin";
+        Path path = Paths.get(file_name);
+        try {
+           Files.deleteIfExists(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
 	// methode pour ajouter un stagiaire à l'arbre
 	public void ajoutStagiaire(Stagiaire stagiaire) {
 		// on vérifie s'l y a une racine
 		if (racine == null) {
+			//on commence par supprimer le fichier s'il existe
+			supprimerFichier();
 			// s'il n'y en a pas on créé le premier noeud et on l'affecte en racine de
 			// l'arbre
 			racine = new Noeud(stagiaire);
