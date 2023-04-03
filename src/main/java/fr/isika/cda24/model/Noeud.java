@@ -269,6 +269,47 @@ public class Noeud {
 		}
 		return resultat;
 	}
+	
+	//Methode pour rechercher un Noeud
+	public ListeStagiaire rechercherNoeud(String attribut, String valeur, int index, ListeStagiaire resultat) {
+		Noeud noeud = lireUnNoeud(index);
+
+		Stagiaire stagiaire = noeud.getStagiaire();
+		stagiaire = Noeud.supprimerAsterisques(stagiaire);
+		String valeurAttribut = "";
+		switch (attribut) {
+		case "nom":
+			valeurAttribut = stagiaire.getNom();
+			break;
+		case "prenom":
+			valeurAttribut = stagiaire.getPrenom();
+			break;
+		case "departement":
+			valeurAttribut = stagiaire.getDepartement();
+			break;
+		case "formation":
+			valeurAttribut = stagiaire.getFormation();
+			break;
+		case "annee":
+			valeurAttribut = stagiaire.getAnnee();
+			break;
+		}
+
+		int comparaison = valeur.compareToIgnoreCase(valeurAttribut);
+		if (comparaison == 0) {
+			resultat.ajouterStagiaire(stagiaire);
+			if (noeud.getDoublon() != -1) {
+				// Noeud doublonNoeud = lireUnNoeud(noeud.getDoublon());
+				resultat = rechercherNoeud(attribut, valeur, noeud.getDoublon(), resultat);
+			}
+		} else if (comparaison < 0 && noeud.getGauche() != -1) {
+			resultat = rechercherNoeud(attribut, valeur, noeud.getGauche(), resultat);
+		} else if (comparaison > 0 && noeud.getDroit() != -1) {
+			resultat = rechercherNoeud(attribut, valeur, noeud.getDroit(), resultat);
+		}
+
+		return resultat;
+	}
 
 	public void modifierNoeud(int index, String nouveauNom, String nouveauPrenom, String nouveauDepartement,
 								String nouveauFormation, String nouveauAnnee) {
@@ -350,25 +391,4 @@ public class Noeud {
 		}
 	}
 
-//    public Stagiaire rechercher(String nom) {
-//        if (nom.compareTo(stagiaire.getNom()) == 0) {
-//            return stagiaire;
-//        } else if (nom.compareTo(stagiaire.getNom()) < 0 && gauche != null) {
-//            return gauche.rechercher(nom);
-//        } else if (nom.compareTo(stagiaire.getNom()) > 0 && droit != null) {
-//            return droit.rechercher(nom);
-//        } else {
-//            return null;
-//        }
-//    }
-
-//    public void afficher() {
-//        if (gauche != null) {
-//            gauche.afficher();
-//        }
-//        System.out.println(stagiaire.toString());
-//        if (droit != null) {
-//            droit.afficher();
-//        }
-//    }
 }

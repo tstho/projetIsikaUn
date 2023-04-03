@@ -28,21 +28,22 @@ public class ArbreBinaireRecherche {
 		this.racine = racine;
 	}
 
-	//méthode pour supprimer le fichier binaire si il existe déjà
-	public void supprimerFichier () {
+	// méthode pour supprimer le fichier binaire si il existe déjà
+	public void supprimerFichier() {
 		String file_name = "src/fichiers/stagiaires.bin";
-        Path path = Paths.get(file_name);
-        try {
-           Files.deleteIfExists(path);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+		Path path = Paths.get(file_name);
+		try {
+			Files.deleteIfExists(path);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
+
 	// methode pour ajouter un stagiaire à l'arbre
 	public void ajoutStagiaire(Stagiaire stagiaire) {
 		// on vérifie s'l y a une racine
 		if (racine == null) {
-			//on commence par supprimer le fichier s'il existe
+			// on commence par supprimer le fichier s'il existe
 			supprimerFichier();
 			// s'il n'y en a pas on créé le premier noeud et on l'affecte en racine de
 			// l'arbre
@@ -77,114 +78,18 @@ public class ArbreBinaireRecherche {
 		return resultat;
 	}
 
-//	public List<Stagiaire> rechercher(String attribut, String valeur) {
-//		List<Stagiaire> resultat = new ArrayList<>();
-//		if (racine == null) {
-//			System.out.println("Aucun résultat de recherche");
-//			return resultat;
-//		} else {
-//			rechercherNoeud(attribut, valeur, 0, resultat);
-//			return resultat;
-//		}
-//	}
-//
-//	public List<Stagiaire> rechercherNoeud(String attribut, String valeur, int index, List<Stagiaire> resultat) {
-//
-//		Noeud noeud = lireUnNoeud(index);
-//		Stagiaire stagiaire = noeud.getStagiaire();
-//		String valeurAttribut = "";
-//		switch (attribut) {
-//		case "nom":
-//			valeurAttribut = stagiaire.getNom();
-//			break;
-//		case "prenom":
-//			valeurAttribut = stagiaire.getPrenom();
-//			break;
-//		case "departement":
-//			valeurAttribut = stagiaire.getDepartement();
-//			break;
-//		case "formation":
-//			valeurAttribut = stagiaire.getFormation();
-//			break;
-//		case "annee":
-//			valeurAttribut = stagiaire.getAnnee();
-//			break;
-//		}
-//		System.out.println("Je teste" + valeurAttribut);
-//		int comparaison = valeur.compareTo(valeurAttribut);
-//		if (comparaison == 0) {
-//			resultat.add(Noeud.supprimerAsterisques(stagiaire));
-//			if (noeud.getDoublon() != -1) {
-//				resultat.addAll(rechercherNoeud(attribut, valeur, noeud.getDoublon(), resultat));
-//			}
-//		} else if (comparaison < 0) {
-//			resultat = rechercherNoeud(attribut, valeur, noeud.getGauche(), resultat);
-//		} else {
-//			resultat = rechercherNoeud(attribut, valeur, noeud.getDroit(), resultat);
-//		}
-//
-//		return resultat;
-//	}
-
 	// Recherche (tous les noeud ayant le même nom)
-//    public ArrayList<Stagiaire> rechercherTous(String nom) {
-//        ArrayList<Stagiaire> resultat = new ArrayList<>();
-//        rechercherTous(nom, racine, resultat);
-//        return resultat;
-//    }
-//    
-//    
-//
-//    private void rechercherTous(String nom, Noeud noeud, ArrayList<Stagiaire> resultat) {
-//        if (noeud != null) {
-//            if (nom.equalsIgnoreCase(noeud.getStagiaire().getNom())) {
-//                resultat.add(noeud.getStagiaire());
-//            }
-//            rechercherTous(nom, noeud.getGauche(), resultat);
-//            rechercherTous(nom, noeud.getDroit(), resultat);
-//        }
-//    }
-//    
-//    
-//    // Recherche Multi-Critere
-//    public ArrayList<Stagiaire> rechercherMultiCritere(String nom, String prenom, String departement, String formation, String annee) {
-//        ArrayList<Stagiaire> resultat2 = new ArrayList<>();
-//        rechercherMultiCritere(nom, prenom, departement, formation, annee, racine, resultat2);
-//        return resultat2;
-//    }
-//
-//    private void rechercherMultiCritere(String nom, String prenom, String departement, String formation, String annee, Noeud noeud, ArrayList<Stagiaire> resultat2) {
-//        if (noeud != null) {
-//            Stagiaire stagiaire = noeud.getStagiaire();
-//            boolean verification = true;
-//            if (nom != null && !nom.isEmpty() && !stagiaire.getNom().equalsIgnoreCase(nom)) {
-//                verification = false;
-//            }
-//            if (prenom != null && !prenom.isEmpty() && !stagiaire.getPrenom().equalsIgnoreCase(prenom)) {
-//                verification = false;
-//            }
-//            if (departement != null && !departement.isEmpty() && !stagiaire.getDepartement().equalsIgnoreCase(departement)) {
-//                verification = false;
-//            }
-//            if (formation != null && !formation.isEmpty() && !stagiaire.getFormation().equalsIgnoreCase(formation)) {
-//                verification = false;
-//            }
-//            if (annee != null && !annee.isEmpty() && !stagiaire.getAnnee().equalsIgnoreCase(annee)) {
-//                verification = false;
-//            }
-//            if (verification) {
-//                resultat2.add(noeud.getStagiaire());
-//            }
-//            rechercherMultiCritere(nom, prenom, departement, formation, annee, noeud.getGauche(), resultat2);
-//            rechercherMultiCritere(nom, prenom, departement, formation, annee, noeud.getDroit(), resultat2);
-//        }
-//    }
-//    
-	// Appel de la méthode afficher (infixe) définie dans Noeud
-//	public void afficher() {
-//		if (racine != null) {
-//			racine.afficher();
-//		}
-//	}
+
+	public ListeStagiaire rechercher(String attribut, String valeur) {
+		ListeStagiaire resultat = new ListeStagiaire();
+		if (racine == null) {
+			return resultat;
+		} else {
+			resultat = racine.rechercherNoeud(attribut, valeur, 0, resultat);
+		}
+		return resultat;
+	}
+
+
 
 }

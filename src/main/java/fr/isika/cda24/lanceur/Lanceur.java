@@ -51,23 +51,13 @@ public class Lanceur {
 		ArbreBinaireRecherche abr = new ArbreBinaireRecherche();
 		int index = 0;
 		for (Stagiaire stagiaire : liste.getListeStagiaire()) {
-			// System.out.println("----- Nouvel ajout ------");
 			abr.ajoutStagiaire(stagiaire);
-//					for (int i = 0; i <= index; i++) {
-//						System.out.println(abr.lireUnNoeud(i));
-//					}
 			index++;
 		}
 		
-		ListeStagiaire resultat = new ListeStagiaire();
-		resultat = abr.affichageInfixe(resultat);
+		ListeStagiaire resultat = abr.rechercher("nom","GARIJO");
 		resultat.afficherStagiaire();
 		
-//		List<Stagiaire> resultat = abr.rechercher("nom","POTIN");
-//	    // Afficher les résultats de la recherche dans la console
-//	    for (Stagiaire stagiaire : resultat) {
-//	        System.out.println(stagiaire.toString());
-//	    }
 		
 
 	}
