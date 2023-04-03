@@ -10,6 +10,7 @@ import java.util.List;
 
 public class Noeud {
 
+	// attributs
 	public final static int TAILLE_NOEUD_OCTET = Stagiaire.TAILLE_STAGIAIRE_OCTET + 4 * 3;
 
 	private Stagiaire stagiaire;
@@ -17,6 +18,7 @@ public class Noeud {
 	private int droit;
 	private int doublon;
 
+	// constructeurs
 	public Noeud(Stagiaire stagiaire) {
 		this.stagiaire = stagiaire;
 		this.gauche = -1;
@@ -32,6 +34,7 @@ public class Noeud {
 		this.doublon = doublon;
 	}
 
+	// getters & setters
 	public Stagiaire getStagiaire() {
 		return stagiaire;
 	}
@@ -60,7 +63,14 @@ public class Noeud {
 		this.doublon = doublon;
 	}
 
-	// Ecriture d'un stagiaire à la fin du fichier binaire
+	// méthode to String
+	@Override
+	public String toString() {
+		return "Noeud [stagiaire=" + stagiaire + ", gauche=" + gauche + ", droit=" + droit + ", doublon=" + doublon
+				+ "]";
+	}
+
+	// methode Ecriture d'un stagiaire à la fin du fichier binaire
 	public void ecritureStagiaire(Stagiaire stagiaire) {
 		try {
 			RandomAccessFile raf = new RandomAccessFile("src/fichiers/stagiaires.bin", "rw");
@@ -138,14 +148,15 @@ public class Noeud {
 		Noeud noeudCompare = lireUnNoeud(indexCompare);
 		// calcul de l'index à comparer en octets
 		int indexCompareOctet = indexCompare * TAILLE_NOEUD_OCTET;
-		//récupération index du nouveau stagiaire
+		// récupération index du nouveau stagiaire
 		int index = calculIndexFin();
-		
+
 		int comparaison = nouveauStagiaire.getNomLong().compareTo(noeudCompare.stagiaire.getNom());
-		
-		//comparaison des noms des stagiaires
+		System.out.println(comparaison);
+
+		// comparaison des noms des stagiaires
 		if (comparaison < 0) {
-			
+
 			if (noeudCompare.gauche == -1) {
 				noeudCompare.gauche = index;
 				try {
@@ -164,11 +175,11 @@ public class Noeud {
 			} else {
 				inserer(nouveauStagiaire, noeudCompare.gauche);
 			}
-			
-		} else if(comparaison>0){
-			
+
+		} else if (comparaison > 0) {
+
 			if (noeudCompare.droit == -1) {
-				
+
 				noeudCompare.droit = index;
 				try {
 					RandomAccessFile raf = new RandomAccessFile("src/fichiers/stagiaires.bin", "rw");
@@ -182,14 +193,14 @@ public class Noeud {
 					e.printStackTrace();
 				}
 				ecritureStagiaire(nouveauStagiaire);
-				
+
 			} else {
-				
+
 				inserer(nouveauStagiaire, noeudCompare.droit);
 			}
-		}else {
+		} else {
 			if (noeudCompare.doublon == -1) {
-				
+
 				noeudCompare.doublon = index;
 				try {
 					RandomAccessFile raf = new RandomAccessFile("src/fichiers/stagiaires.bin", "rw");
@@ -203,16 +214,17 @@ public class Noeud {
 					e.printStackTrace();
 				}
 				ecritureStagiaire(nouveauStagiaire);
-				
+
 			} else {
-				
+
 				inserer(nouveauStagiaire, noeudCompare.doublon);
 			}
 		}
 
 	}
-	//méthode pour calculer l'index quand on se place à la fin du fichier
-	public int calculIndexFin () {
+
+	// méthode pour calculer l'index quand on se place à la fin du fichier
+	public int calculIndexFin() {
 		int index = 0;
 		try {
 			InputStream inputStream = new FileInputStream("src/fichiers/stagiaires.bin");
@@ -224,13 +236,37 @@ public class Noeud {
 			e.printStackTrace();
 		}
 		return index / TAILLE_NOEUD_OCTET;
-		
+
 	}
 
-	@Override
-	public String toString() {
-		return "Noeud [stagiaire=" + stagiaire + ", gauche=" + gauche + ", droit=" + droit + ", doublon=" + doublon
-				+ "]";
+	// methode supprimer les astérisques dans les noms et prénoms
+	public static Stagiaire supprimerAsterisques(Stagiaire stagiaire) {
+		String nom = stagiaire.getNom().replaceAll("\\*", "");
+		String prenom = stagiaire.getPrenom().replaceAll("\\*", "");
+		String departement = stagiaire.getDepartement().replaceAll("\\*", "");
+		String formation = stagiaire.getFormation().replaceAll("\\*", "");
+		String annee = stagiaire.getAnnee().replaceAll("\\*", "");
+
+		return new Stagiaire(nom, prenom, departement, formation, annee);
+	}
+
+	//methode pour afficher les stagiaires dans l'ordre alphabétique
+	public void affichageInfixeNoeud(int index) {
+		Noeud noeud = lireUnNoeud(index);
+		if (noeud.getGauche() != -1) {
+			affichageInfixeNoeud(noeud.getGauche());
+		}
+		System.out.println(Noeud.supprimerAsterisques(noeud.getStagiaire()));
+		if (noeud.getDoublon() != -1) {
+			affichageInfixeNoeud(noeud.getDoublon());
+		}
+		if (noeud.getDroit() != -1) {
+			affichageInfixeNoeud(noeud.getDroit());
+		}
+	}
+
+	public void supprimerNoeud(int index) {
+
 	}
 
 //    public Stagiaire rechercher(String nom) {

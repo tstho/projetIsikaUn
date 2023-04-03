@@ -49,7 +49,15 @@ public class ArbreBinaireRecherche {
 		}
 	}
 	
-	    
+	// appel de la méthode affichage infixe
+		public void affichageInfixe() {
+			if (racine != null) {
+				this.racine.affichageInfixeNoeud(0);
+			} else {
+				System.out.println("Pas de stagiaire");
+			}
+		}  
+	
 	//Recherche (tous les noeud ayant le même nom)
 //    public ArrayList<Stagiaire> rechercherTous(String nom) {
 //        ArrayList<Stagiaire> resultat = new ArrayList<>();

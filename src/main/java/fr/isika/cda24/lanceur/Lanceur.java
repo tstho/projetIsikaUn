@@ -52,17 +52,17 @@ public class Lanceur {
 		ArbreBinaireRecherche abr = new ArbreBinaireRecherche();
 		int index = 0;
 		for (Stagiaire stagiaire : liste.getListeStagiaire()) {
-
-			System.out.println("----- Nouvel ajout ------");
+			// System.out.println("----- Nouvel ajout ------");
 			abr.ajoutStagiaire(stagiaire);
-			for (int i=0; i<=index; i++) {
-				System.out.println(abr.lireUnNoeud(i));
-			}
+//					for (int i = 0; i <= index; i++) {
+//						System.out.println(abr.lireUnNoeud(i));
+//					}
 			index++;
 		}
-		
+		abr.affichageInfixe();
+
 //		System.out.println(abr.lireUnStagiaire(2));
-		
+
 //		try {
 //			// lecture de tous les stagiaires
 //			raf.seek(0);
