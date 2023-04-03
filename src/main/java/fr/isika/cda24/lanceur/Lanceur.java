@@ -54,9 +54,12 @@ public class Lanceur {
 			abr.ajoutStagiaire(stagiaire);
 			index++;
 		}
+//		
+//		ListeStagiaire resultat = abr.rechercher("nom","GARIJO");
+//		resultat.afficherStagiaire();
 		
-		ListeStagiaire resultat = abr.rechercher("nom","GARIJO");
-		resultat.afficherStagiaire();
+		Stagiaire stag = new Stagiaire ("POTIN","Thomas","75","ATOD 21", "2014");
+		abr.supprimerStagiaire(stag);
 		
 		
 

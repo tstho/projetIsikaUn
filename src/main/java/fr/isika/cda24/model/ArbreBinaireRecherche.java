@@ -28,7 +28,7 @@ public class ArbreBinaireRecherche {
 		this.racine = racine;
 	}
 
-	// méthode pour supprimer le fichier binaire si il existe déjà
+	// méthode pour supprimer le fichier binaire s'il existe déjà
 	public void supprimerFichier() {
 		String file_name = "src/fichiers/stagiaires.bin";
 		Path path = Paths.get(file_name);
@@ -79,7 +79,6 @@ public class ArbreBinaireRecherche {
 	}
 
 	// Recherche (tous les noeud ayant le même nom)
-
 	public ListeStagiaire rechercher(String attribut, String valeur) {
 		ListeStagiaire resultat = new ListeStagiaire();
 		if (racine == null) {
@@ -89,7 +88,23 @@ public class ArbreBinaireRecherche {
 		}
 		return resultat;
 	}
-
-
+	//Methode pour supprimer un stagiaire
+	public void supprimerStagiaire(Stagiaire stagiaire) {
+		
+		if(stagiaire == null) {
+			throw new NullPointerException();
+		}
+		
+		if (racine == null) {
+			System.out.println("l'arbre est vide");
+		} else {
+			int index = racine.rechercherIndexNoeud(stagiaire, 0);
+			if(index==-1) {
+				System.out.println("Le Stagiaire que vous essayiez de supprimer n'existe pas");
+			}else {
+				System.out.println(index);
+			}
+		}
+	}
 
 }
