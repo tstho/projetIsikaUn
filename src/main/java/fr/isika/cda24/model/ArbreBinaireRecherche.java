@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ArbreBinaireRecherche {
-	//attributs
+	// attributs
 	private Noeud racine;
 
-	//constructeur
+	// constructeur
 	public ArbreBinaireRecherche() {
 		this.racine = null;
 	}
@@ -22,43 +22,94 @@ public class ArbreBinaireRecherche {
 	public void setRacine(Noeud racine) {
 		this.racine = racine;
 	}
-	
-	//methode pour ajouter un stagiaire à l'arbre
-	public void ajoutStagiaire (Stagiaire stagiaire) {
-		//on vérifie s'l y a une racine
-		if ( racine == null) {
-			//s'il n'y en a pas on créé le premier noeud et on l'affecte en racine de l'arbre
+
+	// methode pour ajouter un stagiaire à l'arbre
+	public void ajoutStagiaire(Stagiaire stagiaire) {
+		// on vérifie s'l y a une racine
+		if (racine == null) {
+			// s'il n'y en a pas on créé le premier noeud et on l'affecte en racine de
+			// l'arbre
 			racine = new Noeud(stagiaire);
-			//on écrit le stagiaire dans le fichier
+			// on écrit le stagiaire dans le fichier
 			racine.ecritureStagiaire(stagiaire);
-		}else {
-			//s'il y a déjà une racine, on insert le nouveau stagiaire dans l'arbre
-			
+		} else {
+			// s'il y a déjà une racine, on insert le nouveau stagiaire dans l'arbre
+
 			this.racine.inserer(stagiaire, 0);
 		}
 	}
-	
-	//methode pour lire un stagiaire dans l'arbre
+
+	// methode pour lire un stagiaire dans l'arbre
 	public Noeud lireUnNoeud(int index) {
-		//on vérifie s'l y a une racine
-		if ( racine == null) {
+		// on vérifie s'l y a une racine
+		if (racine == null) {
 			System.out.println("l'arbre est vide");
 			return null;
-		}else {
+		} else {
 			return racine.lireUnNoeud(index);
 		}
 	}
-	
+
 	// appel de la méthode affichage infixe
-		public void affichageInfixe() {
-			if (racine != null) {
-				this.racine.affichageInfixeNoeud(0);
-			} else {
-				System.out.println("Pas de stagiaire");
-			}
-		}  
-	
-	//Recherche (tous les noeud ayant le même nom)
+	public ListeStagiaire affichageInfixe(ListeStagiaire resultat) {
+		if (racine != null) {
+			this.racine.affichageInfixeNoeud(0, resultat);
+		} else {
+			System.out.println("Arbre vide");
+		}
+		return resultat;
+	}
+
+//	public List<Stagiaire> rechercher(String attribut, String valeur) {
+//		List<Stagiaire> resultat = new ArrayList<>();
+//		if (racine == null) {
+//			System.out.println("Aucun résultat de recherche");
+//			return resultat;
+//		} else {
+//			rechercherNoeud(attribut, valeur, 0, resultat);
+//			return resultat;
+//		}
+//	}
+//
+//	public List<Stagiaire> rechercherNoeud(String attribut, String valeur, int index, List<Stagiaire> resultat) {
+//
+//		Noeud noeud = lireUnNoeud(index);
+//		Stagiaire stagiaire = noeud.getStagiaire();
+//		String valeurAttribut = "";
+//		switch (attribut) {
+//		case "nom":
+//			valeurAttribut = stagiaire.getNom();
+//			break;
+//		case "prenom":
+//			valeurAttribut = stagiaire.getPrenom();
+//			break;
+//		case "departement":
+//			valeurAttribut = stagiaire.getDepartement();
+//			break;
+//		case "formation":
+//			valeurAttribut = stagiaire.getFormation();
+//			break;
+//		case "annee":
+//			valeurAttribut = stagiaire.getAnnee();
+//			break;
+//		}
+//		System.out.println("Je teste" + valeurAttribut);
+//		int comparaison = valeur.compareTo(valeurAttribut);
+//		if (comparaison == 0) {
+//			resultat.add(Noeud.supprimerAsterisques(stagiaire));
+//			if (noeud.getDoublon() != -1) {
+//				resultat.addAll(rechercherNoeud(attribut, valeur, noeud.getDoublon(), resultat));
+//			}
+//		} else if (comparaison < 0) {
+//			resultat = rechercherNoeud(attribut, valeur, noeud.getGauche(), resultat);
+//		} else {
+//			resultat = rechercherNoeud(attribut, valeur, noeud.getDroit(), resultat);
+//		}
+//
+//		return resultat;
+//	}
+
+	// Recherche (tous les noeud ayant le même nom)
 //    public ArrayList<Stagiaire> rechercherTous(String nom) {
 //        ArrayList<Stagiaire> resultat = new ArrayList<>();
 //        rechercherTous(nom, racine, resultat);
@@ -118,6 +169,5 @@ public class ArbreBinaireRecherche {
 //			racine.afficher();
 //		}
 //	}
-
 
 }

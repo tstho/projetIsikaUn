@@ -147,12 +147,11 @@ public class Noeud {
 		// Lecture du Stagiaire à comparer
 		Noeud noeudCompare = lireUnNoeud(indexCompare);
 		// calcul de l'index à comparer en octets
-		int indexCompareOctet = indexCompare * TAILLE_NOEUD_OCTET;
+		int indexCompareOctet = calculIndexOctet(indexCompare);
 		// récupération index du nouveau stagiaire
 		int index = calculIndexFin();
 
 		int comparaison = nouveauStagiaire.getNomLong().compareTo(noeudCompare.stagiaire.getNom());
-		System.out.println(comparaison);
 
 		// comparaison des noms des stagiaires
 		if (comparaison < 0) {
@@ -238,6 +237,11 @@ public class Noeud {
 		return index / TAILLE_NOEUD_OCTET;
 
 	}
+	
+	//méthode pour calcul l'index en octet
+	public int calculIndexOctet (int index) {
+		return index * TAILLE_NOEUD_OCTET;
+	}
 
 	// methode supprimer les astérisques dans les noms et prénoms
 	public static Stagiaire supprimerAsterisques(Stagiaire stagiaire) {
@@ -251,22 +255,99 @@ public class Noeud {
 	}
 
 	//methode pour afficher les stagiaires dans l'ordre alphabétique
-	public void affichageInfixeNoeud(int index) {
+	public ListeStagiaire affichageInfixeNoeud(int index, ListeStagiaire resultat) {
 		Noeud noeud = lireUnNoeud(index);
 		if (noeud.getGauche() != -1) {
-			affichageInfixeNoeud(noeud.getGauche());
+			affichageInfixeNoeud(noeud.getGauche(), resultat);
 		}
-		System.out.println(Noeud.supprimerAsterisques(noeud.getStagiaire()));
+		resultat.ajouterStagiaire(Noeud.supprimerAsterisques(noeud.stagiaire));
 		if (noeud.getDoublon() != -1) {
-			affichageInfixeNoeud(noeud.getDoublon());
+			affichageInfixeNoeud(noeud.getDoublon(),resultat);
 		}
 		if (noeud.getDroit() != -1) {
-			affichageInfixeNoeud(noeud.getDroit());
+			affichageInfixeNoeud(noeud.getDroit(),resultat);
 		}
+		return resultat;
 	}
 
-	public void supprimerNoeud(int index) {
-
+	public void modifierNoeud(int index, String nouveauNom, String nouveauPrenom, String nouveauDepartement,
+								String nouveauFormation, String nouveauAnnee) {
+		Noeud noeudAModifier = lireUnNoeud(index);
+		if(nouveauNom!=null) {
+			noeudAModifier.stagiaire.setNom(nouveauNom);
+			String nomLong = noeudAModifier.stagiaire.getNomLong();
+			try {
+				RandomAccessFile raf = new RandomAccessFile("src/fichiers/stagiaires.bin", "rw");
+				// on place le curseur au niveau du nom a modifier 
+				raf.seek(calculIndexOctet(index));
+				// On écrit le nouveau nom stagiaire
+				raf.writeChars(nomLong);
+				raf.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(nouveauPrenom!=null) {
+			noeudAModifier.stagiaire.setPrenom(nouveauPrenom);
+			String prenomLong = noeudAModifier.stagiaire.getPrenomLong();
+			try {
+				RandomAccessFile raf = new RandomAccessFile("src/fichiers/stagiaires.bin", "rw");
+				// on place le curseur au niveau du prénom a modifier 
+				raf.seek(calculIndexOctet(index)+ Stagiaire.TAILLE_NOM_MAX);
+				// On écrit le nouveau prenom stagiaire
+				raf.writeChars(prenomLong);
+				raf.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(nouveauDepartement!=null) {
+			noeudAModifier.stagiaire.setPrenom(nouveauDepartement);
+			String departementLong = noeudAModifier.stagiaire.getDepartementLong();
+			try {
+				RandomAccessFile raf = new RandomAccessFile("src/fichiers/stagiaires.bin", "rw");
+				// on place le curseur au niveau du departement a modifier 
+				raf.seek(calculIndexOctet(index)+ Stagiaire.TAILLE_NOM_MAX + Stagiaire.TAILLE_PRENOM_MAX);
+				// On écrit le nouveau departement stagiaire
+				raf.writeChars(departementLong);
+				raf.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(nouveauFormation!=null) {
+			noeudAModifier.stagiaire.setPrenom(nouveauFormation);
+			String formationLong = noeudAModifier.stagiaire.getFormationLong();
+			try {
+				RandomAccessFile raf = new RandomAccessFile("src/fichiers/stagiaires.bin", "rw");
+				// on place le curseur au niveau du formation a modifier 
+				raf.seek(calculIndexOctet(index)+ Stagiaire.TAILLE_NOM_MAX + Stagiaire.TAILLE_PRENOM_MAX+ Stagiaire.TAILLE_DEPARTEMENT_MAX);
+				// On écrit la nouvelle formation stagiaire
+				raf.writeChars(formationLong);
+				raf.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(nouveauAnnee!=null) {
+			noeudAModifier.stagiaire.setPrenom(nouveauAnnee);
+			String anneeLong = noeudAModifier.stagiaire.getAnneeLong();
+			try {
+				RandomAccessFile raf = new RandomAccessFile("src/fichiers/stagiaires.bin", "rw");
+				// on place le curseur au niveau du annee a modifier 
+				raf.seek(calculIndexOctet(index)+ Stagiaire.TAILLE_NOM_MAX+ Stagiaire.TAILLE_PRENOM_MAX+ Stagiaire.TAILLE_DEPARTEMENT_MAX+ Stagiaire.TAILLE_FORMATION_MAX);
+				// On écrit la nouvelle annee stagiaire
+				raf.writeChars(anneeLong);
+				raf.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 //    public Stagiaire rechercher(String nom) {
