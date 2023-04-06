@@ -278,7 +278,7 @@ public class InterfaceStagiaire extends Application {
 		        stagiairesImportes = new ListeStagiaire();
 
 		        // Vider l'arbre binaire
-		        arbreBinaire.vider();
+		        arbreBinaire.setRacine(null);
 
 		        // Charger la liste des stagiaires à partir du fichier sélectionné
 		        ListeStagiaire liste = new ListeStagiaire();

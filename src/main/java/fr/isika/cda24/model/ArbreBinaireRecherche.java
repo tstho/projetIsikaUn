@@ -9,20 +9,23 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+
 /**
- * Cette classe représente un arbre binaire de recherche, utilisé pour stocker et rechercher des stagiaires.
+ * Cette classe représente un arbre binaire de recherche, utilisé pour stocker
+ * et rechercher des stagiaires.
  * 
  */
 public class ArbreBinaireRecherche {
 	/** La racine de l'arbre. */
 	private Noeud racine;
-	
+
 	/**
 	 * Constructeur par défaut.
 	 */
 	public ArbreBinaireRecherche() {
 		this.racine = null;
 	}
+
 	/**
 	 * Retourne la racine de l'arbre.
 	 *
@@ -31,6 +34,7 @@ public class ArbreBinaireRecherche {
 	public Noeud getRacine() {
 		return racine;
 	}
+
 	/**
 	 * Modifie la racine de l'arbre.
 	 *
@@ -52,6 +56,7 @@ public class ArbreBinaireRecherche {
 			e.printStackTrace();
 		}
 	}
+
 	/**
 	 * Ajoute un stagiaire à l'arbre.
 	 *
@@ -73,6 +78,17 @@ public class ArbreBinaireRecherche {
 			this.racine.inserer(stagiaire, 0);
 		}
 	}
+/**
+ * Ajoute une liste de Stagiaire à l'arbre
+ * 
+ * @param listeStagiaire	la liste de Stagiaire à ajouter
+ */
+	public void ajoutListeStagiaire(ListeStagiaire listeStagiaire) {
+		for (Stagiaire stagiaire : listeStagiaire.getListeStagiaire()) {
+			ajoutStagiaire(stagiaire);
+		}
+	}
+
 	/**
 	 * Lit un noeud à l'indice spécifié dans l'arbre.
 	 *
@@ -106,16 +122,6 @@ public class ArbreBinaireRecherche {
 		return resultat;
 	}
 
-	// METHODE TEST AFFICHAGE NOEUD
-	public ArrayList<Noeud> affichageInfixeNoeud() {
-		ArrayList<Noeud> resultat = new ArrayList<Noeud>();
-		if (racine != null) {
-			this.racine.affichageInfixeNoeudTest(0, resultat);
-		} else {
-			System.out.println("Arbre vide");
-		}
-		return resultat;
-	}
 	/**
 	 * Recherche tous les noeuds ayant une valeur spécifique pour un attribut donné.
 	 *
@@ -133,6 +139,7 @@ public class ArbreBinaireRecherche {
 		}
 		return resultat;
 	}
+
 	/**
 	 * Recherche les noeuds qui correspondent à plusieurs critères.
 	 *
@@ -158,11 +165,12 @@ public class ArbreBinaireRecherche {
 
 		return resultatMulti;
 	}
-/**
- * Supprime un stagiaire de l'arbre
- * 
- * @param stagiaire
- */
+
+	/**
+	 * Supprime un stagiaire de l'arbre
+	 * 
+	 * @param stagiaire
+	 */
 	public void supprimerStagiaire(Stagiaire stagiaire) {
 		int indexASupprimer = racine.rechercherIndexNoeud(stagiaire, 0);
 
@@ -180,12 +188,23 @@ public class ArbreBinaireRecherche {
 			}
 		}
 	}
-/**
- * methode pour vider l'arbre avant d'importer
- */
-	//Existe déjà avec setRacine(null) ??
-	public void vider() {
-		racine = null;
+
+	/**
+	 * 
+	 * @param stagiaireOriginal
+	 * @param stagiaireModifie
+	 */
+	public void modifierStagiaire(Stagiaire stagiaireOriginal, Stagiaire stagiaireModifie) {
+
+		if (racine == null) {
+			System.out.println("l'arbre est vide");
+		} else if (stagiaireOriginal.getNom() != stagiaireModifie.getNom()) {
+			supprimerStagiaire(stagiaireOriginal);
+			ajoutStagiaire(stagiaireModifie);
+		} else {
+			int index = racine.rechercherIndexNoeud(stagiaireOriginal, 0);
+			racine.modifierNoeud(index, stagiaireModifie);
+		}
 	}
 
 }

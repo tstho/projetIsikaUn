@@ -21,7 +21,8 @@ public class Noeud {
 
 	// attributs
 	/**
-	 * Constante Taille d'un nœud en octets.
+	 * Constante Taille d'un nœud en octets. Utilisé en écriture et lecture du
+	 * fichier binaire.
 	 */
 	public final static int TAILLE_NOEUD_OCTET = Stagiaire.TAILLE_STAGIAIRE_OCTET + 4 * 3;
 	/**
@@ -380,29 +381,13 @@ public class Noeud {
 			affichageInfixeNoeud(noeud.getGauche(), resultat);
 		}
 		// Ajout du stagiaire actuel dans la liste de résultats
-		resultat.ajouterStagiaire(Noeud.supprimerAsterisques(noeud.stagiaire));
+		resultat.ajouterStagiaire(supprimerAsterisques(noeud.stagiaire));
 		// Si le noeud doublon existe, on parcourt récursivement cet arbre
 		if (noeud.getDoublon() != -1) {
 			affichageInfixeNoeud(noeud.getDoublon(), resultat);
 		}
 		if (noeud.getDroit() != -1) {
 			affichageInfixeNoeud(noeud.getDroit(), resultat);
-		}
-		return resultat;
-	}
-
-//	METHODE TEST AFFICHAGE NOEUD
-	public ArrayList<Noeud> affichageInfixeNoeudTest(int index, ArrayList<Noeud> resultat) {
-		Noeud noeud = lireUnNoeud(index);
-		if (noeud.getGauche() != -1) {
-			affichageInfixeNoeudTest(noeud.getGauche(), resultat);
-		}
-		resultat.add(noeud);
-		if (noeud.getDoublon() != -1) {
-			affichageInfixeNoeudTest(noeud.getDoublon(), resultat);
-		}
-		if (noeud.getDroit() != -1) {
-			affichageInfixeNoeudTest(noeud.getDroit(), resultat);
 		}
 		return resultat;
 	}
@@ -575,7 +560,7 @@ public class Noeud {
 	 * 
 	 * @param indexRecherche index enfant recherché
 	 * @param indexParent    index utilisé pour comparer
-	 * @return on renvoi l'index parent ou se trouve l'
+	 * @return on renvoi l'index parent ou se trouve l'index de l'enfant
 	 */
 	public int rechercherIndexParent(int indexRecherche, int indexParent) {
 
@@ -713,11 +698,12 @@ public class Noeud {
 
 	/**
 	 * Méthode pour modifier un fils non identifié du Noeud parent. La méthode va
-	 * rechercher ou se trouve le fils que l'on veut modifier et faire appel à la
-	 * méthode permettant de le modifier par le nouveau fils.
+	 * rechercher ou se trouve le fils que l'on veut modifier en fonction de l'index
+	 * à supprimer et faire appel à la méthode permettant de le modifier par le
+	 * nouveau fils.
 	 * 
-	 * @param indexASupprimer	index recherché et écrasé par le nouveau fils
-	 * @param indexAInserer		index à insérer
+	 * @param indexASupprimer index recherché et écrasé par le nouveau fils
+	 * @param indexAInserer   index à insérer
 	 */
 	public void modifierUnFilsNoeudParent(int indexASupprimer, int indexAInserer) {
 
@@ -738,89 +724,33 @@ public class Noeud {
 		}
 
 	}
+/**
+ * Méthode pour écraser le prénom, le département, la formation et l'année dans le fichier binaire
+ * 
+ * @param index				index du Noeud à modifier
+ * @param stagiaireModifie	stagiaire avec les nouvelles infos
+ */
+	public void modifierNoeud(int index, Stagiaire stagiaireModifie) {
+		try {
+			// on ouvre le fichier
+			RandomAccessFile raf = new RandomAccessFile("src/fichiers/stagiaires.bin", "rw");
+			
+			// on place le curseur au niveau du stagiaire à modifier
+			raf.seek(calculIndexOctet(index) + Stagiaire.TAILLE_NOM_OCTET);
+			
+			// on réécrit tout ces attributs
+			raf.writeChars(stagiaireModifie.getPrenomLong());
+			raf.writeChars(stagiaireModifie.getDepartementLong());
+			raf.writeChars(stagiaireModifie.getFormationLong());
+			raf.writeChars(stagiaireModifie.getAnneeLong());
+			
 
+			raf.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-	// méthode pour modifier un Noeud (à finir)
-	public void modifierNoeud(int index, String nouveauNom, String nouveauPrenom, String nouveauDepartement,
-			String nouveauFormation, String nouveauAnnee) {
-		Noeud noeudAModifier = lireUnNoeud(index);
-		if (nouveauNom != null) {
-			noeudAModifier.stagiaire.setNom(nouveauNom);
-			String nomLong = noeudAModifier.stagiaire.getNomLong();
-			try {
-				RandomAccessFile raf = new RandomAccessFile("src/fichiers/stagiaires.bin", "rw");
-				// on place le curseur au niveau du nom a modifier
-				raf.seek(calculIndexOctet(index));
-				// On écrit le nouveau nom stagiaire
-				raf.writeChars(nomLong);
-				raf.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		if (nouveauPrenom != null) {
-			noeudAModifier.stagiaire.setPrenom(nouveauPrenom);
-			String prenomLong = noeudAModifier.stagiaire.getPrenomLong();
-			try {
-				RandomAccessFile raf = new RandomAccessFile("src/fichiers/stagiaires.bin", "rw");
-				// on place le curseur au niveau du prénom a modifier
-				raf.seek(calculIndexOctet(index) + Stagiaire.TAILLE_NOM_MAX);
-				// On écrit le nouveau prenom stagiaire
-				raf.writeChars(prenomLong);
-				raf.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		if (nouveauDepartement != null) {
-			noeudAModifier.stagiaire.setPrenom(nouveauDepartement);
-			String departementLong = noeudAModifier.stagiaire.getDepartementLong();
-			try {
-				RandomAccessFile raf = new RandomAccessFile("src/fichiers/stagiaires.bin", "rw");
-				// on place le curseur au niveau du departement a modifier
-				raf.seek(calculIndexOctet(index) + Stagiaire.TAILLE_NOM_MAX + Stagiaire.TAILLE_PRENOM_MAX);
-				// On écrit le nouveau departement stagiaire
-				raf.writeChars(departementLong);
-				raf.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		if (nouveauFormation != null) {
-			noeudAModifier.stagiaire.setPrenom(nouveauFormation);
-			String formationLong = noeudAModifier.stagiaire.getFormationLong();
-			try {
-				RandomAccessFile raf = new RandomAccessFile("src/fichiers/stagiaires.bin", "rw");
-				// on place le curseur au niveau du formation a modifier
-				raf.seek(calculIndexOctet(index) + Stagiaire.TAILLE_NOM_MAX + Stagiaire.TAILLE_PRENOM_MAX
-						+ Stagiaire.TAILLE_DEPARTEMENT_MAX);
-				// On écrit la nouvelle formation stagiaire
-				raf.writeChars(formationLong);
-				raf.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		if (nouveauAnnee != null) {
-			noeudAModifier.stagiaire.setPrenom(nouveauAnnee);
-			String anneeLong = noeudAModifier.stagiaire.getAnneeLong();
-			try {
-				RandomAccessFile raf = new RandomAccessFile("src/fichiers/stagiaires.bin", "rw");
-				// on place le curseur au niveau du annee a modifier
-				raf.seek(calculIndexOctet(index) + Stagiaire.TAILLE_NOM_MAX + Stagiaire.TAILLE_PRENOM_MAX
-						+ Stagiaire.TAILLE_DEPARTEMENT_MAX + Stagiaire.TAILLE_FORMATION_MAX);
-				// On écrit la nouvelle annee stagiaire
-				raf.writeChars(anneeLong);
-				raf.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
 	}
 
 }
