@@ -1,4 +1,4 @@
-package fr.isika.cda24.projetIsikaUn;
+package fr.isika.cda24.front;
 
 public class SystemInfo {
 

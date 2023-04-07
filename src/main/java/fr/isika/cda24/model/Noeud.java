@@ -42,6 +42,11 @@ public class Noeud {
 	 * L'indice du noeud associé au nœud(s) jumeau(x).
 	 */
 	private int doublon;
+	
+
+	public Noeud() {
+		super();
+	}
 
 	/**
 	 * Constructeur d'un nœud avec une instance de la classe Stagiaire et des
@@ -193,7 +198,7 @@ public class Noeud {
 
 		try {
 			RandomAccessFile raf = new RandomAccessFile("src/fichiers/stagiaires.bin", "rw");
-			// on se place à l'index ou on veut lire le stagiaire
+			// on se place à l'index où on veut lire le stagiaire
 			index = index * TAILLE_NOEUD_OCTET;
 			raf.seek(index);
 			// on lit chaque info du stagiaire
@@ -541,7 +546,7 @@ public class Noeud {
 			if (comparaisonPrenom == 0 && comparaisonDept == 0 && comparaisonFormation == 0 && comparaisonAnnee == 0) {
 				return index;
 			} else if (noeud.getDoublon() != -1) {
-				rechercherIndexNoeud(stagiaireRecherche, noeud.getDoublon());
+				return rechercherIndexNoeud(stagiaireRecherche, noeud.getDoublon());
 			}
 		} else if (comparaisonNom < 0 && noeud.getGauche() != -1) {
 			return rechercherIndexNoeud(stagiaireRecherche, noeud.getGauche());
@@ -706,44 +711,44 @@ public class Noeud {
 	 * @param indexAInserer   index à insérer
 	 */
 	public void modifierUnFilsNoeudParent(int indexASupprimer, int indexAInserer) {
-
+		//On cherche le noeud Parent
 		int indexParent = rechercherIndexParent(indexASupprimer, 0);
 		Noeud noeudParent = lireUnNoeud(indexParent);
 
 		if (noeudParent.getGauche() == indexASupprimer) {
-
+			// si le noeud à supprimer est le fils gauche du noeud Parent, on le modifie avec l'index à insérer
 			modifierFilsGauche(indexAInserer, indexParent);
 
 		} else if (noeudParent.getDroit() == indexASupprimer) {
-
+			// si le noeud à supprimer est le fils droit du noeud Parent, on le modifie avec l'index à insérer
 			modifierFilsDroit(indexAInserer, indexParent);
 
 		} else if (noeudParent.getDoublon() == indexASupprimer) {
-
+			// si le noeud à supprimer est le doublon du noeud Parent, on le modifie avec l'index à insérer
 			modifierDoublon(indexAInserer, indexParent);
 		}
 
 	}
-/**
- * Méthode pour écraser le prénom, le département, la formation et l'année dans le fichier binaire
- * 
- * @param index				index du Noeud à modifier
- * @param stagiaireModifie	stagiaire avec les nouvelles infos
- */
+
+	/**
+	 * Méthode pour écraser le prénom, le département, la formation et l'année dans
+	 * le fichier binaire, avec les attributs modifiés.
+	 * 
+	 * @param index            index du Noeud à modifier
+	 * @param stagiaireModifie stagiaire avec les nouvelles informations
+	 */
 	public void modifierNoeud(int index, Stagiaire stagiaireModifie) {
 		try {
 			// on ouvre le fichier
 			RandomAccessFile raf = new RandomAccessFile("src/fichiers/stagiaires.bin", "rw");
-			
-			// on place le curseur au niveau du stagiaire à modifier
+			// on place le curseur au niveau du prenom du stagiaire à modifier
 			raf.seek(calculIndexOctet(index) + Stagiaire.TAILLE_NOM_OCTET);
-			
+
 			// on réécrit tout ces attributs
 			raf.writeChars(stagiaireModifie.getPrenomLong());
 			raf.writeChars(stagiaireModifie.getDepartementLong());
 			raf.writeChars(stagiaireModifie.getFormationLong());
 			raf.writeChars(stagiaireModifie.getAnneeLong());
-			
 
 			raf.close();
 		} catch (IOException e) {

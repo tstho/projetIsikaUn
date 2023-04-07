@@ -1,6 +1,7 @@
 package fr.isika.cda24.lanceur;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -11,6 +12,9 @@ import fr.isika.cda24.model.ArbreBinaireRecherche;
 import fr.isika.cda24.model.ListeStagiaire;
 import fr.isika.cda24.model.Noeud;
 import fr.isika.cda24.model.Stagiaire;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 public class Lanceur {
 
@@ -20,11 +24,11 @@ public class Lanceur {
 
 		// charger les stagiaires depuis le fichier
 		liste = liste.chargerStagiairesDepuisFichier("src/fichiers/DOUZESTAGIAIRES.DON");
-		
+
 		// écriture du fichier binaire
 		ArbreBinaireRecherche abr = new ArbreBinaireRecherche();
 		abr.ajoutListeStagiaire(liste);
-		
+
 //		= abr.rechercher("nom","GARIJO");
 //		liste.afficherStagiaire();
 
@@ -33,26 +37,65 @@ public class Lanceur {
 
 		System.out.println("---Après tri -------");
 		liste2.afficherStagiaire();
-		
-		Stagiaire stag = new Stagiaire ("POTIN","Thomas","75","ATOD 21", "2014");
-		Stagiaire stag2 = new Stagiaire ("UNG","Jet-Ming","75","ATOD 16 CP", "2012");
-		Stagiaire stag3 = new Stagiaire ("GARIJO","Rosie","75","AI 79", "2011");
-		Stagiaire stag4 = new Stagiaire ("AKHIAD","Brahim","92","AI 60", "2003");
-		Stagiaire stag5 = new Stagiaire ("LACROIX","Pascale","91","BOBI 5", "2008");
-		Stagiaire stag6 = new Stagiaire ("CHAVENEAU","Kim Anh","92","ATOD 22", "2014");
-			
-//		abr.supprimerStagiaire(stag3);
-		
-		Stagiaire stagBis = new Stagiaire("POTIN", "Toto", "67", "AI 54", "2222");
 
-		Stagiaire stag5Bis = new Stagiaire ("LACROIX","Pascale","91","BOBI 5", "2111");
-		
-		abr.modifierStagiaire(stag, stagBis);
-		
+		Stagiaire stag = new Stagiaire("POTIN", "Thomas", "75", "ATOD 21", "2014");
+		Stagiaire stag2 = new Stagiaire("UNG", "Jet-Ming", "75", "ATOD 16 CP", "2012");
+		Stagiaire stag3 = new Stagiaire("GARIJO", "Rosie", "75", "AI 79", "2011");
+		Stagiaire stag4 = new Stagiaire("AKHIAD", "Brahim", "92", "AI 60", "2003");
+		Stagiaire stag5 = new Stagiaire("LACROIX", "Pascale", "91", "BOBI 5", "2008");
+		Stagiaire stag6 = new Stagiaire("CHAVENEAU", "Kim Anh", "92", "ATOD 22", "2014");
+		Stagiaire stag7 = new Stagiaire("GARIJO", "Albert", "76", "CDA 40", "2016");
+		Stagiaire stag8 = new Stagiaire("GARIJO", "Rosie", "89", "CDA 67", "2016");
+
+	//	abr.supprimerStagiaire(stag8);
+
+		Stagiaire stagBis = new Stagiaire("POTIN", "Toto", "67", "AI 54", "2222");
+		Stagiaire stag5Bis = new Stagiaire("PACROIX", "Pascale", "91", "BOBI 5", "2111");
+		Stagiaire stag3bis = new Stagiaire("GARIJO", "Brendan", "75", "AI 79", "2222");
+		Stagiaire stag3ter = new Stagiaire("BARIJO", "Brendan", "75", "AI 79", "2222");
+		Stagiaire stag7bis = new Stagiaire("GARIJO", "Bebert", "53", "BOBI 5", "1839");
+
+	//	abr.modifierStagiaire(stag7, stag7bis);
+
 		System.out.println("---Après modification -------");
 
-		ListeStagiaire resultat = new ListeStagiaire();
-		abr.affichageInfixe(resultat);
-		resultat.afficherStagiaire();
+		// Création de la liste de stagiaire et de l'arbre
+		ListeStagiaire listeModif = new ListeStagiaire();
+		ArbreBinaireRecherche arbreModif = new ArbreBinaireRecherche();
+		// Si le fichier binaire existe déjà, on l'utilise pour remplir l'abre et la
+		// liste
+		File fichierBinaire = new File("src/fichiers/stagiaires.bin");
+		if (fichierBinaire.isFile()) {
+			arbreModif.initialiserArbreFichier();
+			listeModif = arbreModif.affichageInfixe(listeModif);
+		}
+		listeModif.afficherStagiaire();
+		
+
+		Label nomLabelAjouter = new Label("Nom:");
+		TextField nomTextFieldAjouter = new TextField();
+		Label prenomLabelAjouter = new Label("Prénom:");
+		TextField prenomTextFieldAjouter = new TextField();
+		Label departementLabelAjouter = new Label("Département:");
+		TextField departementTextFieldAjouter = new TextField();
+		Label formationLabelAjouter = new Label("Formation:");
+		TextField formationTextFieldAjouter = new TextField();
+		Label anneeLabelAjouter = new Label("Année:");
+		TextField anneeTextFieldAjouter = new TextField();
+		Button ajouterBtnPopUp = new Button("Ajouter");
+		
+		if (nomTextFieldAjouter.getLength() > Stagiaire.TAILLE_NOM_MAX) {
+		    System.out.println("Please Enter 21 character maximum");
+		}else if (prenomTextFieldAjouter.getLength() > Stagiaire.TAILLE_PRENOM_MAX) {
+			
+		}else if (departementTextFieldAjouter.getLength() > Stagiaire.TAILLE_DEPARTEMENT_MAX) {
+			
+		}else if(formationTextFieldAjouter.getLength() > Stagiaire.TAILLE_FORMATION_MAX) {
+			
+		}else if (anneeTextFieldAjouter.getLength() > Stagiaire.TAILLE_ANNEE_MAX) {
+			
+		}else {
+			
+		}
 	}
 }

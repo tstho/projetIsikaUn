@@ -1,5 +1,6 @@
 package fr.isika.cda24.model;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,6 +46,21 @@ public class ArbreBinaireRecherche {
 	}
 
 	/**
+	 * Méthode initialisant l'arbre avec le premier noeud du fichier binaire. On
+	 * vérifie que le fichier binaire existe. On définit la racine sur un noeud vide
+	 * pour pouvoir lancer la lecture et on la redéfinit avec le premier noeud du
+	 * fichier.
+	 * 
+	 */
+	public void initialiserArbreFichier() {
+		File fichierBinaire = new File("src/fichiers/stagiaires.bin");
+		if (fichierBinaire.isFile()) {
+			this.racine = new Noeud();
+			this.racine = racine.lireUnNoeud(0);
+		}
+	}
+
+	/**
 	 * Supprime le fichier binaire s'il existe déjà.
 	 */
 	public void supprimerFichier() {
@@ -78,11 +94,12 @@ public class ArbreBinaireRecherche {
 			this.racine.inserer(stagiaire, 0);
 		}
 	}
-/**
- * Ajoute une liste de Stagiaire à l'arbre
- * 
- * @param listeStagiaire	la liste de Stagiaire à ajouter
- */
+
+	/**
+	 * Ajoute une liste de Stagiaire à l'arbre
+	 * 
+	 * @param listeStagiaire la liste de Stagiaire à ajouter
+	 */
 	public void ajoutListeStagiaire(ListeStagiaire listeStagiaire) {
 		for (Stagiaire stagiaire : listeStagiaire.getListeStagiaire()) {
 			ajoutStagiaire(stagiaire);
@@ -190,9 +207,13 @@ public class ArbreBinaireRecherche {
 	}
 
 	/**
+	 * Méthode pour modifier le Stagiaire. Si le nom a été modifié le stagiaire sera
+	 * supprimé de l'arbre puis ré-ajouté avec son nouveau nom. Sinon la méthode
+	 * modifierNoeud() sera appelé pour modifier ses attributs dans le fichier
+	 * binaire.
 	 * 
-	 * @param stagiaireOriginal
-	 * @param stagiaireModifie
+	 * @param stagiaireOriginal le stagiaire avant modification
+	 * @param stagiaireModifie  le stagiaire après modification
 	 */
 	public void modifierStagiaire(Stagiaire stagiaireOriginal, Stagiaire stagiaireModifie) {
 
