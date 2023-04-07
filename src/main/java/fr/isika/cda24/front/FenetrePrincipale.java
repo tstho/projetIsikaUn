@@ -201,8 +201,10 @@ public class FenetrePrincipale extends BorderPane {
 			Stagiaire stagiaireSelectionne = stagiaireTableView.getSelectionModel().getSelectedItem();
 			stagiaireTableView.getItems().clear();
 			stagiaireApresSupression = new ListeStagiaire();
-			// Effectuer la suppression et mise à jour des listre et tableView
+			// Effectuer la suppression 
 			arbreBinaire.supprimerStagiaire(stagiaireSelectionne);
+			//Mise à jour des liste et tableView à partir du nouvel arbre
+			arbreBinaire.initialiserArbreFichier();
 			arbreBinaire.affichageInfixe(stagiaireApresSupression);
 			ObservableList<Stagiaire> stagiaires = FXCollections
 					.observableArrayList(stagiaireApresSupression.getListeStagiaire());

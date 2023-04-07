@@ -102,6 +102,7 @@ public class FenetreModification extends BorderPane {
 			testListe.afficherStagiaire();
 			stagiaireListeModifie = new ListeStagiaire();
 			//Effectuer la modification et mettre à jour la tableView
+			arbreImporte.initialiserArbreFichier();
 			arbreImporte.affichageInfixe(stagiaireListeModifie);
 			ObservableList<Stagiaire> stagiaires = FXCollections
 					.observableArrayList(stagiaireListeModifie.getListeStagiaire());

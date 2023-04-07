@@ -53,10 +53,11 @@ public class Lanceur {
 		Stagiaire stag5Bis = new Stagiaire("PACROIX", "Pascale", "91", "BOBI 5", "2111");
 		Stagiaire stag3bis = new Stagiaire("GARIJO", "Brendan", "75", "AI 79", "2222");
 		Stagiaire stag3ter = new Stagiaire("BARIJO", "Brendan", "75", "AI 79", "2222");
-		Stagiaire stag7bis = new Stagiaire("GARIJO", "Bebert", "53", "BOBI 5", "1839");
+		Stagiaire stag7bis = new Stagiaire("BARIJO", "Bebert", "53", "BOBI 5", "1839");
 
-	//	abr.modifierStagiaire(stag7, stag7bis);
+		abr.ajoutStagiaire(stag3ter);
 
+		abr.modifierStagiaire(stag3ter, stag7bis);
 		System.out.println("---Après modification -------");
 
 		// Création de la liste de stagiaire et de l'arbre
@@ -72,30 +73,5 @@ public class Lanceur {
 		listeModif.afficherStagiaire();
 		
 
-		Label nomLabelAjouter = new Label("Nom:");
-		TextField nomTextFieldAjouter = new TextField();
-		Label prenomLabelAjouter = new Label("Prénom:");
-		TextField prenomTextFieldAjouter = new TextField();
-		Label departementLabelAjouter = new Label("Département:");
-		TextField departementTextFieldAjouter = new TextField();
-		Label formationLabelAjouter = new Label("Formation:");
-		TextField formationTextFieldAjouter = new TextField();
-		Label anneeLabelAjouter = new Label("Année:");
-		TextField anneeTextFieldAjouter = new TextField();
-		Button ajouterBtnPopUp = new Button("Ajouter");
-		
-		if (nomTextFieldAjouter.getLength() > Stagiaire.TAILLE_NOM_MAX) {
-		    System.out.println("Please Enter 21 character maximum");
-		}else if (prenomTextFieldAjouter.getLength() > Stagiaire.TAILLE_PRENOM_MAX) {
-			
-		}else if (departementTextFieldAjouter.getLength() > Stagiaire.TAILLE_DEPARTEMENT_MAX) {
-			
-		}else if(formationTextFieldAjouter.getLength() > Stagiaire.TAILLE_FORMATION_MAX) {
-			
-		}else if (anneeTextFieldAjouter.getLength() > Stagiaire.TAILLE_ANNEE_MAX) {
-			
-		}else {
-			
-		}
 	}
 }

@@ -100,6 +100,7 @@ public class FenetreAjout extends BorderPane {
 			// Réalisation de l'ajout
 			arbreImporte.ajoutStagiaire(stagiaireAdd);
 			// Mise à jour des liste et tableView
+			arbreImporte.initialiserArbreFichier();
 			arbreImporte.affichageInfixe(stagiaireImportesEtAjoutee);
 			ObservableList<Stagiaire> stagiaires = FXCollections
 					.observableArrayList(stagiaireImportesEtAjoutee.getListeStagiaire());
