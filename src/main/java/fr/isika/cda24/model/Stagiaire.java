@@ -9,18 +9,18 @@ public class Stagiaire {
 	 */
 	public final static int TAILLE_NOM_MAX = 21;
 	public final static int TAILLE_PRENOM_MAX = 20;
-	public final static int TAILLE_DEPARTEMENT_MAX = 2;
+	public final static int TAILLE_DEPARTEMENT_MAX = 3;
 	public final static int TAILLE_FORMATION_MAX = 21;
 	public final static int TAILLE_ANNEE_MAX = 4;
 	/**
 	 * Constantes représentant la taille maximum en octet de chaque attribut et la
 	 * taille total en octet de tous ces attributs
 	 */
-	public final static int TAILLE_NOM_OCTET = 21 * 2;
-	public final static int TAILLE_PRENOM_OCTET = 20 * 2;
-	public final static int TAILLE_DEPARTEMENT_OCTET = 2 * 2;
-	public final static int TAILLE_FORMATION_OCTET = 21 * 2;
-	public final static int TAILLE_ANNEE_OCTET = 4 * 2;
+	public final static int TAILLE_NOM_OCTET = TAILLE_NOM_MAX * 2;
+	public final static int TAILLE_PRENOM_OCTET = TAILLE_PRENOM_MAX * 2;
+	public final static int TAILLE_DEPARTEMENT_OCTET = TAILLE_DEPARTEMENT_MAX * 2;
+	public final static int TAILLE_FORMATION_OCTET = TAILLE_FORMATION_MAX * 2;
+	public final static int TAILLE_ANNEE_OCTET = TAILLE_ANNEE_MAX * 2;
 	public final static int TAILLE_STAGIAIRE_OCTET = TAILLE_NOM_OCTET + TAILLE_PRENOM_OCTET + TAILLE_DEPARTEMENT_OCTET
 			+ TAILLE_FORMATION_OCTET + TAILLE_ANNEE_OCTET;
 	/**
@@ -144,8 +144,8 @@ public class Stagiaire {
  */
 	@Override
 	public String toString() {
-		return "Stagiaire [nom=" + nom + ", prenom=" + prenom + ", departement=" + departement + ", formation="
-				+ formation + ", annee=" + annee + "]";
+		return nom + " " + prenom + " - " + departement + " - "
+				+ formation + " - " + annee;
 	}
 
 }

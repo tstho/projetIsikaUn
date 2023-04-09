@@ -8,7 +8,9 @@ import fr.isika.cda24.model.Stagiaire;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -80,35 +82,82 @@ public class FenetreModification extends BorderPane {
 		});
 		
 		modifierBtn.setOnAction(event -> {
-			fenetrePrincipale.getStagiaireTableView().getItems().clear();
-
-			String nom = nomTextField.getText().isEmpty() ? null : nomTextField.getText();
-			String prenom = prenomTextField.getText().isEmpty() ? null : prenomTextField.getText();
-			String departement = departementTextField.getText().isEmpty() ? null : departementTextField.getText();
-			String formation = formationTextField.getText().isEmpty() ? null : formationTextField.getText();
-			String annee = anneeTextField.getText().isEmpty() ? null : anneeTextField.getText();
-
-			stagiaireModifie = new Stagiaire(nom, prenom, departement, formation, annee);
-
-			arbreImporte.modifierStagiaire(fenetrePrincipale.getStagiaireOriginal(), stagiaireModifie);
-
-			ListeStagiaire testListe = new ListeStagiaire();
-			ArbreBinaireRecherche abr = new ArbreBinaireRecherche();
-			File fichierBinaire = new File("src/fichiers/stagiaires.bin");
-			if (fichierBinaire.isFile()) {
-				abr.initialiserArbreFichier();
-				testListe = abr.affichageInfixe(testListe);
-			}
-			testListe.afficherStagiaire();
-			stagiaireListeModifie = new ListeStagiaire();
-			//Effectuer la modification et mettre à jour la tableView
-			arbreImporte.initialiserArbreFichier();
-			arbreImporte.affichageInfixe(stagiaireListeModifie);
-			ObservableList<Stagiaire> stagiaires = FXCollections
-					.observableArrayList(stagiaireListeModifie.getListeStagiaire());
-			fenetrePrincipale.getStagiaireTableView().getItems().addAll(stagiaires);
-			fenetrePrincipale.getStagiaireTableView().refresh();
-			App.getStage().setScene(FenetreAuthentification.getScenePrincipale());
+			if (nomTextField.getLength() > Stagiaire.TAILLE_NOM_MAX) {
+				Alert alertSelec = new Alert(Alert.AlertType.WARNING);
+				DialogPane dialogPaneSelec = alertSelec.getDialogPane();
+				dialogPaneSelec.setStyle("-fx-font-family: Arial");
+				alertSelec.setTitle("Nom trop grand");
+				alertSelec.setHeaderText("Le nom du Stagiaire est trop grand.");
+				alertSelec.setContentText("Veuillez mettre un nom de 21 caractères maximum.");
+				alertSelec.showAndWait();
+				return;
+			}else if (prenomTextField.getLength() > Stagiaire.TAILLE_PRENOM_MAX) {
+				Alert alertSelec = new Alert(Alert.AlertType.WARNING);
+				DialogPane dialogPaneSelec = alertSelec.getDialogPane();
+				dialogPaneSelec.setStyle("-fx-font-family: Arial");
+				alertSelec.setTitle("Prénom trop grand");
+				alertSelec.setHeaderText("Le prénom du Stagiaire est trop grand.");
+				alertSelec.setContentText("Veuillez mettre un nom de 20 caractères maximum.");
+				alertSelec.showAndWait();
+				return;
+			}else if (departementTextField.getLength() > Stagiaire.TAILLE_DEPARTEMENT_MAX) {
+				Alert alertSelec = new Alert(Alert.AlertType.WARNING);
+				DialogPane dialogPaneSelec = alertSelec.getDialogPane();
+				dialogPaneSelec.setStyle("-fx-font-family: Arial");
+				alertSelec.setTitle("Département trop grand");
+				alertSelec.setHeaderText("Le département du Stagiaire est trop grand.");
+				alertSelec.setContentText("Veuillez mettre un département de 3 caractères maximum.");
+				alertSelec.showAndWait();
+				return;
+			}else if(formationTextField.getLength() > Stagiaire.TAILLE_FORMATION_MAX) {
+				Alert alertSelec = new Alert(Alert.AlertType.WARNING);
+				DialogPane dialogPaneSelec = alertSelec.getDialogPane();
+				dialogPaneSelec.setStyle("-fx-font-family: Arial");
+				alertSelec.setTitle("Formation trop grand");
+				alertSelec.setHeaderText("Le nom de la formation du Stagiaire est trop grand.");
+				alertSelec.setContentText("Veuillez mettre une formation de 21 caractères maximum.");
+				alertSelec.showAndWait();
+				return;
+			}else if (anneeTextField.getLength() > Stagiaire.TAILLE_ANNEE_MAX) {
+				Alert alertSelec = new Alert(Alert.AlertType.WARNING);
+				DialogPane dialogPaneSelec = alertSelec.getDialogPane();
+				dialogPaneSelec.setStyle("-fx-font-family: Arial");
+				alertSelec.setTitle("Année trop grande");
+				alertSelec.setHeaderText("L'année rentrée est trop grande.");
+				alertSelec.setContentText("Veuillez mettre une année de 4 caractères maximum.");
+				alertSelec.showAndWait();
+				return;
+			}else {
+				fenetrePrincipale.getStagiaireTableView().getItems().clear();
+	
+				String nom = nomTextField.getText().isEmpty() ? null : nomTextField.getText();
+				String prenom = prenomTextField.getText().isEmpty() ? null : prenomTextField.getText();
+				String departement = departementTextField.getText().isEmpty() ? null : departementTextField.getText();
+				String formation = formationTextField.getText().isEmpty() ? null : formationTextField.getText();
+				String annee = anneeTextField.getText().isEmpty() ? null : anneeTextField.getText();
+	
+				stagiaireModifie = new Stagiaire(nom, prenom, departement, formation, annee);
+	
+				arbreImporte.modifierStagiaire(fenetrePrincipale.getStagiaireOriginal(), stagiaireModifie);
+	
+				ListeStagiaire testListe = new ListeStagiaire();
+				ArbreBinaireRecherche abr = new ArbreBinaireRecherche();
+				File fichierBinaire = new File("src/fichiers/stagiaires.bin");
+				if (fichierBinaire.isFile()) {
+					abr.initialiserArbreFichier();
+					testListe = abr.affichageInfixe(testListe);
+				}
+				testListe.afficherStagiaire();
+				stagiaireListeModifie = new ListeStagiaire();
+				//Effectuer la modification et mettre à jour la tableView
+				arbreImporte.initialiserArbreFichier();
+				arbreImporte.affichageInfixe(stagiaireListeModifie);
+				ObservableList<Stagiaire> stagiaires = FXCollections
+						.observableArrayList(stagiaireListeModifie.getListeStagiaire());
+				fenetrePrincipale.getStagiaireTableView().getItems().addAll(stagiaires);
+				fenetrePrincipale.getStagiaireTableView().refresh();
+				App.getStage().setScene(FenetreAuthentification.getScenePrincipale());
+			}	
 		});
 
 		this.setStyle("-fx-background-color: blanchedalmond; -fx-font-family: Arial");

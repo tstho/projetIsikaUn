@@ -8,7 +8,9 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -85,29 +87,77 @@ public class FenetreAjout extends BorderPane {
 		
 		
 		ajouterBtnFormulaire.setOnAction(event -> {
-			fenetrePrincipale.getStagiaireTableView().getItems().clear();
-			// Récupérer les valeurs des attribut de sstagiaire entrées dans les champs de texte
-			String nomAdd = nomTextFieldAjouter.getText().isEmpty() ? null : nomTextFieldAjouter.getText();
-			String prenomAdd = prenomTextFieldAjouter.getText().isEmpty() ? null : prenomTextFieldAjouter.getText();
-			String departementAdd = departementTextFieldAjouter.getText().isEmpty() ? null
-					: departementTextFieldAjouter.getText();
-			String formationAdd = formationTextFieldAjouter.getText().isEmpty() ? null
-					: formationTextFieldAjouter.getText();
-			String anneeAdd = anneeTextFieldAjouter.getText().isEmpty() ? null : anneeTextFieldAjouter.getText();
-			// Création du stagiaire à ajouter
-			Stagiaire stagiaireAdd = new Stagiaire(nomAdd, prenomAdd, departementAdd, formationAdd, anneeAdd);
-			stagiaireImportesEtAjoutee = new ListeStagiaire();
-			// Réalisation de l'ajout
-			arbreImporte.ajoutStagiaire(stagiaireAdd);
-			// Mise à jour des liste et tableView
-			arbreImporte.initialiserArbreFichier();
-			arbreImporte.affichageInfixe(stagiaireImportesEtAjoutee);
-			ObservableList<Stagiaire> stagiaires = FXCollections
-					.observableArrayList(stagiaireImportesEtAjoutee.getListeStagiaire());
-			fenetrePrincipale.getStagiaireTableView().getItems().addAll(stagiaires);
-			fenetrePrincipale.getStagiaireTableView().refresh();
-			// Retour sur la fenêtre principale
-			App.getStage().setScene(FenetreAuthentification.getScenePrincipale());
+			
+			if (nomTextFieldAjouter.getLength() > Stagiaire.TAILLE_NOM_MAX) {
+				Alert alertSelec = new Alert(Alert.AlertType.WARNING);
+				DialogPane dialogPaneSelec = alertSelec.getDialogPane();
+				dialogPaneSelec.setStyle("-fx-font-family: Arial");
+				alertSelec.setTitle("Nom trop grand");
+				alertSelec.setHeaderText("Le nom du Stagiaire est trop grand.");
+				alertSelec.setContentText("Veuillez mettre un nom de 21 caractères maximum.");
+				alertSelec.showAndWait();
+				return;
+			}else if (prenomTextFieldAjouter.getLength() > Stagiaire.TAILLE_PRENOM_MAX) {
+				Alert alertSelec = new Alert(Alert.AlertType.WARNING);
+				DialogPane dialogPaneSelec = alertSelec.getDialogPane();
+				dialogPaneSelec.setStyle("-fx-font-family: Arial");
+				alertSelec.setTitle("Prénom trop grand");
+				alertSelec.setHeaderText("Le prénom du Stagiaire est trop grand.");
+				alertSelec.setContentText("Veuillez mettre un nom de 20 caractères maximum.");
+				alertSelec.showAndWait();
+				return;
+			}else if (departementTextFieldAjouter.getLength() > Stagiaire.TAILLE_DEPARTEMENT_MAX) {
+				Alert alertSelec = new Alert(Alert.AlertType.WARNING);
+				DialogPane dialogPaneSelec = alertSelec.getDialogPane();
+				dialogPaneSelec.setStyle("-fx-font-family: Arial");
+				alertSelec.setTitle("Département trop grand");
+				alertSelec.setHeaderText("Le département du Stagiaire est trop grand.");
+				alertSelec.setContentText("Veuillez mettre un département de 3 caractères maximum.");
+				alertSelec.showAndWait();
+				return;
+			}else if(formationTextFieldAjouter.getLength() > Stagiaire.TAILLE_FORMATION_MAX) {
+				Alert alertSelec = new Alert(Alert.AlertType.WARNING);
+				DialogPane dialogPaneSelec = alertSelec.getDialogPane();
+				dialogPaneSelec.setStyle("-fx-font-family: Arial");
+				alertSelec.setTitle("Formation trop grand");
+				alertSelec.setHeaderText("Le nom de la formation du Stagiaire est trop grand.");
+				alertSelec.setContentText("Veuillez mettre une formation de 21 caractères maximum.");
+				alertSelec.showAndWait();
+				return;
+			}else if (anneeTextFieldAjouter.getLength() > Stagiaire.TAILLE_ANNEE_MAX) {
+				Alert alertSelec = new Alert(Alert.AlertType.WARNING);
+				DialogPane dialogPaneSelec = alertSelec.getDialogPane();
+				dialogPaneSelec.setStyle("-fx-font-family: Arial");
+				alertSelec.setTitle("Année trop grande");
+				alertSelec.setHeaderText("L'année rentrée est trop grande.");
+				alertSelec.setContentText("Veuillez mettre une année de 4 caractères maximum.");
+				alertSelec.showAndWait();
+				return;
+			}else {
+				fenetrePrincipale.getStagiaireTableView().getItems().clear();
+				// Récupérer les valeurs des attribut de sstagiaire entrées dans les champs de texte
+				String nomAdd = nomTextFieldAjouter.getText().isEmpty() ? null : nomTextFieldAjouter.getText();
+				String prenomAdd = prenomTextFieldAjouter.getText().isEmpty() ? null : prenomTextFieldAjouter.getText();
+				String departementAdd = departementTextFieldAjouter.getText().isEmpty() ? null
+						: departementTextFieldAjouter.getText();
+				String formationAdd = formationTextFieldAjouter.getText().isEmpty() ? null
+						: formationTextFieldAjouter.getText();
+				String anneeAdd = anneeTextFieldAjouter.getText().isEmpty() ? null : anneeTextFieldAjouter.getText();
+				// Création du stagiaire à ajouter
+				Stagiaire stagiaireAdd = new Stagiaire(nomAdd, prenomAdd, departementAdd, formationAdd, anneeAdd);
+				stagiaireImportesEtAjoutee = new ListeStagiaire();
+				// Réalisation de l'ajout
+				arbreImporte.ajoutStagiaire(stagiaireAdd);
+				// Mise à jour des liste et tableView
+				arbreImporte.initialiserArbreFichier();
+				arbreImporte.affichageInfixe(stagiaireImportesEtAjoutee);
+				ObservableList<Stagiaire> stagiaires = FXCollections
+						.observableArrayList(stagiaireImportesEtAjoutee.getListeStagiaire());
+				fenetrePrincipale.getStagiaireTableView().getItems().addAll(stagiaires);
+				fenetrePrincipale.getStagiaireTableView().refresh();
+				// Retour sur la fenêtre principale
+				App.getStage().setScene(FenetreAuthentification.getScenePrincipale());
+			}	
 		});
 
 		this.setStyle("-fx-background-color: blanchedalmond; -fx-font-family: Arial");
