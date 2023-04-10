@@ -70,38 +70,9 @@ public class FenetreAuthentification extends BorderPane {
 		nomUtilisateurTextField = new TextField();
 		Label motDePasseLabel = new Label("Mot de passe :");
 		motDePassePasswordField = new PasswordField();
-		//motDePassePasswordField.setText("Mot de passe");
 		validerBtn = new Button("Valider");
 		entrezBtn = new Button("Accès visiteur");
-		
-//		nomUtilisateurTextField.setOnMouseClicked(event -> {
-//			if (nomUtilisateurTextField.getText().equals("Identifiant administrateur")) {
-//				nomUtilisateurTextField.setText("");
-//			}
-//		});
-//
-//		nomUtilisateurTextField.focusedProperty().addListener((obs, oldVal, newVal) -> {
-//			if (!newVal) { // Lorsque le focus est perdu
-//				if (nomUtilisateurTextField.getText().isEmpty()) {
-//					nomUtilisateurTextField.setText("Identifiant administrateur");
-//				}
-//			}
-//		});
-//		
-//		motDePassePasswordField.setOnMouseClicked(event -> {
-//			if (motDePassePasswordField.getText().equals("Mot de passe")) {
-//				motDePassePasswordField.setText("");
-//			}
-//		});
-//
-//		motDePassePasswordField.focusedProperty().addListener((obs, oldVal, newVal) -> {
-//			if (!newVal) { // Lorsque le focus est perdu
-//				if (motDePassePasswordField.getText().isEmpty()) {
-//					motDePassePasswordField.setText("Mot de passe");
-//				}
-//			}
-//		});
-//		
+
 
 		// style du formulaire
 		lblTitre.setFont(Font.font("Arial", FontWeight.BOLD, 23));
@@ -135,7 +106,6 @@ public class FenetreAuthentification extends BorderPane {
 		authentificationBox.setSpacing(12);
 		authentificationBox.setPadding(new Insets(0, 50, 20, 50));
 		
-
 		// Placement au centre de la borderPane
 		this.setCenter(authentificationBox);
 		this.setStyle("-fx-font-family: Arial");
