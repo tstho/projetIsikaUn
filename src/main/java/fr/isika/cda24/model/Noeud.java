@@ -1,5 +1,6 @@
 package fr.isika.cda24.model;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -125,6 +126,8 @@ public class Noeud {
 	 */
 	public void ecritureStagiaire(Stagiaire stagiaire) {
 		try {
+			File dossier = new File("src/fichiers");
+			dossier.mkdir();
 			RandomAccessFile raf = new RandomAccessFile("src/fichiers/stagiaires.bin", "rw");
 			// place le pointeur à la fin du fichier
 			raf.seek(raf.length());
