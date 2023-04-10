@@ -18,6 +18,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -83,43 +84,59 @@ public class FenetreRechercheAvancee extends BorderPane {
 		BorderPane borderPaneInterRechercheAvancee = new BorderPane();
 
 		// Creation de la gridpane su formulaire et de ses éléments
-		GridPane gridPaneRechercheAvancee = new GridPane();
-		gridPaneRechercheAvancee.setHgap(10);
-		gridPaneRechercheAvancee.setVgap(10);
-		gridPaneRechercheAvancee.setPadding(new Insets(10, 10, 20, 10));
+		GridPane gridPane = new GridPane();
+		gridPane.setHgap(10);
+		gridPane.setVgap(10);
+		// gridPaneRechercheAvancee.setPadding(new Insets(10, 50, 20, 50));
 
-		Label labelTitre = new Label("Entrez les critères de recherche :");
+		Label labelTitre = new Label("           	  Recherche Avancée :");
 		// police, taille du texte
 		labelTitre.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+		labelTitre.setTextFill(Color.WHITE);
 		GridPane.setConstraints(labelTitre, 0, 0, 2, 1, HPos.CENTER, VPos.CENTER);
 
 		Label nomLabel = new Label("Nom :");
 		nomTextField = new TextField();
 		nomLabel.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		nomLabel.setTextFill(Color.WHITE);
 		Label prenomLabel = new Label("Prénom :");
 		prenomLabel.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		prenomLabel.setTextFill(Color.WHITE);
 		prenomTextField = new TextField();
 		Label departementLabel = new Label("Département :");
 		departementLabel.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		departementLabel.setTextFill(Color.WHITE);
 		departementTextField = new TextField();
 		Label formationLabel = new Label("Formation :");
 		formationLabel.setFont(Font.font("Arial", FontWeight.BOLD, 14));
 		formationTextField = new TextField();
+		formationLabel.setTextFill(Color.WHITE);
 		Label anneeLabel = new Label("Année :");
 		anneeLabel.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		anneeLabel.setTextFill(Color.WHITE);
 		anneeTextField = new TextField();
 
 		// Création d'une forme personnalisée pour les textfield
-		Rectangle rect = new Rectangle(10, 10);
+		Rectangle rect = new Rectangle(20, 20);
 		rect.setArcWidth(10);
 		rect.setArcHeight(10);
 		BackgroundFill bgFill = new BackgroundFill(Color.WHITE, new CornerRadii(15), new Insets(0));
 		Background bg = new Background(bgFill);
+
+		DropShadow dropShadow = new DropShadow();
+		dropShadow.setRadius(3);
+		dropShadow.setColor(Color.BLACK);
+
 		nomTextField.setBackground(bg);
+		nomTextField.setEffect(dropShadow);
 		prenomTextField.setBackground(bg);
+		prenomTextField.setEffect(dropShadow);
 		departementTextField.setBackground(bg);
+		departementTextField.setEffect(dropShadow);
 		formationTextField.setBackground(bg);
+		formationTextField.setEffect(dropShadow);
 		anneeTextField.setBackground(bg);
+		anneeTextField.setEffect(dropShadow);
 
 		// Mise en forme du bouton rechercher
 		Button rechercherBtn = new Button("Rechercher");
@@ -134,9 +151,10 @@ public class FenetreRechercheAvancee extends BorderPane {
 			imageViewRech.setPreserveRatio(true);
 			// ajuste la largeur de l'image pour qu'elle soit légèrement plus petite que le
 			// bouton
-			imageViewRech.setFitWidth(rechercherBtn.getPrefWidth() - 10);
-			imageViewRech.setFitHeight(rechercherBtn.getPrefHeight() - 10);
+			imageViewRech.setFitWidth(rechercherBtn.getPrefWidth() - 20);
+			imageViewRech.setFitHeight(rechercherBtn.getPrefHeight() - 20);
 			rechercherBtn.setGraphic(imageViewRech);
+			rechercherBtn.setGraphicTextGap(20);
 		} catch (FileNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -149,21 +167,22 @@ public class FenetreRechercheAvancee extends BorderPane {
 		BackgroundFill bgFillBtnRech = new BackgroundFill(Color.WHITE, new CornerRadii(15), new Insets(0));
 		Background bgBtnRech = new Background(bgFillBtnRech);
 		rechercherBtn.setBackground(bgBtnRech);
+		rechercherBtn.setEffect(dropShadow);
 
 		// Remplissage de la gridPane
-		gridPaneRechercheAvancee.add(labelTitre, 0, 1);
-		gridPaneRechercheAvancee.add(nomLabel, 0, 4);
-		gridPaneRechercheAvancee.add(nomTextField, 1, 4);
-		gridPaneRechercheAvancee.add(prenomLabel, 0, 5);
-		gridPaneRechercheAvancee.add(prenomTextField, 1, 5);
-		gridPaneRechercheAvancee.add(departementLabel, 0, 6);
-		gridPaneRechercheAvancee.add(departementTextField, 1, 6);
-		gridPaneRechercheAvancee.add(formationLabel, 0, 7);
-		gridPaneRechercheAvancee.add(formationTextField, 1, 7);
-		gridPaneRechercheAvancee.add(anneeLabel, 0, 8);
-		gridPaneRechercheAvancee.add(anneeTextField, 1, 8);
-		gridPaneRechercheAvancee.add(rechercherBtn, 1, 11, 1, 2);
-		gridPaneRechercheAvancee.setAlignment(Pos.CENTER);
+		gridPane.add(labelTitre, 0, 1);
+		gridPane.add(nomLabel, 0, 4);
+		gridPane.add(nomTextField, 1, 4);
+		gridPane.add(prenomLabel, 0, 5);
+		gridPane.add(prenomTextField, 1, 5);
+		gridPane.add(departementLabel, 0, 6);
+		gridPane.add(departementTextField, 1, 6);
+		gridPane.add(formationLabel, 0, 7);
+		gridPane.add(formationTextField, 1, 7);
+		gridPane.add(anneeLabel, 0, 8);
+		gridPane.add(anneeTextField, 1, 8);
+		gridPane.add(rechercherBtn, 1, 11, 1, 2);
+		gridPane.setAlignment(Pos.CENTER);
 
 		// Construction du header
 		// La Hbox "header" contient deux Hbox, l'une avec le logo ISIKA et l'autre avec
@@ -225,21 +244,18 @@ public class FenetreRechercheAvancee extends BorderPane {
 		// Hbox contenant le logo ISIKA
 		HBox hboxImage = new HBox();
 		hboxImage.setAlignment(Pos.CENTER_LEFT);
-		hboxImage.setPadding(new Insets(0, 0, 10, 0));
+		hboxImage.setPadding(new Insets(0, 0, 10, 5));
 		HBox.setHgrow(hboxImage, Priority.ALWAYS);
 		Image logoIsika;
 		try {
 			logoIsika = new Image(new FileInputStream("src/image/Logo_ISIKA.png"));
 			ImageView imageViewLogoIsika = new ImageView(logoIsika);
 			imageViewLogoIsika.setPreserveRatio(true);
-
-			// Get the font size of the buttons to adjust the height of the image
+			// Ajustement de la taille de l'image à la taille des boutons (de leur police)
 			double buttonFontSize = retourBtn.getFont().getSize();
-
-			// Set the height of the image to be equal to the height of the buttons
-			imageViewLogoIsika.setFitHeight(buttonFontSize + 20);
-
-			hboxImage.getChildren().add(imageViewLogoIsika); // ajout du logo à la hbox
+			imageViewLogoIsika.setFitHeight(buttonFontSize + 30);
+			// ajout du logo à la hbox
+			hboxImage.getChildren().add(imageViewLogoIsika);
 		} catch (FileNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -258,14 +274,9 @@ public class FenetreRechercheAvancee extends BorderPane {
 		this.setCenter(borderPaneInterRechercheAvancee);
 		this.setTop(header);
 		borderPaneInterRechercheAvancee
-				.setStyle("-fx-background-color: gainsboro; -fx-font-family: Arial;-fx-background-radius: 10px");
+				.setStyle("-fx-background-color: #454343; -fx-font-family: Arial;-fx-background-radius: 10px");
 		borderPaneInterRechercheAvancee.setPadding(new Insets(20, 20, 20, 20));
-		borderPaneInterRechercheAvancee.setCenter(gridPaneRechercheAvancee);
-		BorderStrokeStyle borderStrokeStyle = BorderStrokeStyle.SOLID;
-		BorderStroke borderStroke = new BorderStroke(Color.BLACK, borderStrokeStyle, new CornerRadii(5),
-				new BorderWidths(1));
-		Border border = new Border(borderStroke);
-		borderPaneInterRechercheAvancee.setBorder(border);
+		borderPaneInterRechercheAvancee.setCenter(gridPane);
 
 // Action sur les boutons
 

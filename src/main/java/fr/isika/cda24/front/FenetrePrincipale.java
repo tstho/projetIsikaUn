@@ -1,5 +1,6 @@
 package fr.isika.cda24.front;
 
+import java.awt.Cursor;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.FileInputStream;
@@ -109,7 +110,6 @@ public class FenetrePrincipale extends BorderPane {
 // Création des éléments graphiques
 
 		// BorderPane(s) contenant tout les élements
-		this.setPadding(new Insets(10, 10, 10, 10));
 
 		BorderPane rootInter = new BorderPane();
 		rootInter.setPadding(new Insets(20, 20, 20, 20));
@@ -229,7 +229,7 @@ public class FenetrePrincipale extends BorderPane {
 
 		// Construction du footer (boutons en dessous de la tableView)
 		HBox hboxFooter = new HBox(10);
-		hboxFooter.setPadding(new Insets(10, 10, 10, 10));
+		hboxFooter.setPadding(new Insets(20, 10, 10, 10));
 		rootInter.setBottom(hboxFooter);
 
 		Button ajouterBtn = new Button("Ajouter");
@@ -308,7 +308,7 @@ public class FenetrePrincipale extends BorderPane {
 		modifierBtn.setBackground(bgBtnFooter);
 		imprimerBtn.setBackground(bgBtnFooter);
 
-		// Replissage du footer
+		// Remplissage du footer
 		hboxFooter.getChildren().addAll(ajouterBtn, supprimerBtn, modifierBtn, imprimerBtn);
 		hboxFooter.setAlignment(Pos.CENTER);
 
@@ -320,8 +320,8 @@ public class FenetrePrincipale extends BorderPane {
 		// Hbox avec les boutons "Connexion", "importer" et "Aide/info"
 		HBox hboxSubHeaderBtn = new HBox();
 
-		Button aideBtn = new Button("Info");
-		aideBtn.setFont(Font.font("Arial", FontWeight.BOLD, 9));
+		Button aideBtn = new Button(" Aide");
+		aideBtn.setFont(Font.font("Arial", FontWeight.BOLD, 10));
 		aideBtn.setPrefWidth(80);
 		aideBtn.setPrefHeight(35);
 		Image imageAide;
@@ -337,8 +337,8 @@ public class FenetrePrincipale extends BorderPane {
 		}
 
 		Button importerFichierBtn = new Button("Importer");
-		importerFichierBtn.setFont(Font.font("Arial", FontWeight.BOLD, 9));
-		importerFichierBtn.setPrefWidth(80);
+		importerFichierBtn.setFont(Font.font("Arial", FontWeight.BOLD, 10));
+		importerFichierBtn.setPrefWidth(90);
 		importerFichierBtn.setPrefHeight(35);
 		Image imageImportation;
 		try {
@@ -353,7 +353,7 @@ public class FenetrePrincipale extends BorderPane {
 		}
 
 		Button idBtn = new Button("Connexion");
-		idBtn.setFont(Font.font("Arial", FontWeight.BOLD, 9));
+		idBtn.setFont(Font.font("Arial", FontWeight.BOLD, 10));
 		idBtn.setPrefWidth(100);
 		idBtn.setPrefHeight(35);
 		Image imageId;
@@ -381,22 +381,22 @@ public class FenetrePrincipale extends BorderPane {
 		// Remplissage du header
 		hboxSubHeaderBtn.getChildren().addAll(idBtn, importerFichierBtn, aideBtn);
 		hboxSubHeaderBtn.setAlignment(Pos.CENTER_RIGHT);
-		hboxSubHeaderBtn.setPadding(new Insets(0, 0, 10, 0));
+		hboxSubHeaderBtn.setPadding(new Insets(0, 0, 0, 0));
 		HBox.setHgrow(hboxSubHeaderBtn, Priority.ALWAYS);
 
 		// Hbox contenant le logo ISIKA
 		HBox hboxImage = new HBox();
 		hboxImage.setAlignment(Pos.CENTER_LEFT);
-		hboxImage.setPadding(new Insets(0, 0, 10, 0));
+		hboxImage.setPadding(new Insets(0, 0, 10, 5));
 		HBox.setHgrow(hboxImage, Priority.ALWAYS);
 		Image logoIsika;
 		try {
 			logoIsika = new Image(new FileInputStream("src/image/Logo_ISIKA.png"));
 			ImageView imageViewLogoIsika = new ImageView(logoIsika);
 			imageViewLogoIsika.setPreserveRatio(true);
-			double buttonFontSize = updateBtn.getFont().getSize();
 			// Ajustement de la taille de l'image à la taille des boutons (de leur police)
-			imageViewLogoIsika.setFitHeight(buttonFontSize + 20);
+			double buttonFontSize = aideBtn.getFont().getSize();
+			imageViewLogoIsika.setFitHeight(buttonFontSize + 30);
 			// ajout du logo à la hbox
 			hboxImage.getChildren().add(imageViewLogoIsika);
 		} catch (FileNotFoundException e1) {
@@ -413,17 +413,11 @@ public class FenetrePrincipale extends BorderPane {
 
 		// Style et insertion des éléments dans les borderPane
 
-		// Définition d'une bordure
-		BorderStrokeStyle borderStrokeStyle = BorderStrokeStyle.SOLID;
-		BorderStroke borderStroke = new BorderStroke(Color.BLACK, borderStrokeStyle, new CornerRadii(5),
-				new BorderWidths(1));
-		Border border = new Border(borderStroke);
-		rootInter.setBorder(border);
-
 		this.setStyle("-fx-background-color: papayawhip; -fx-font-family: Arial");
+		this.setPadding(new Insets(10, 10, 10, 10));
 		this.setCenter(rootInter);
 		this.setTop(header);
-		rootInter.setStyle("-fx-background-color: gainsboro; -fx-font-family: Arial;-fx-background-radius: 10px");
+		rootInter.setStyle("-fx-background-color: #454343; -fx-font-family: Arial;-fx-background-radius: 10px");
 		rootInter.setCenter(anchorTableView);
 		rootInter.setBottom(hboxFooter);
 		rootInter.setTop(hboxRecherche);
@@ -506,10 +500,10 @@ public class FenetrePrincipale extends BorderPane {
 		idBtn.setOnAction(event -> {
 			// Créer une nouvelle instance de la fenêtre d'authentification
 			FenetreAuthentification fenetreAuthentification = new FenetreAuthentification(liste, arbreBinaire);
-
+			sceneAuthentification = new Scene (fenetreAuthentification, 400, 400);
 			// Remplacer la scène actuelle par la scène d'authentification initiale
 			Stage stage = App.getStage();
-			stage.setScene(App.getSceneAuthentification());
+			stage.setScene(sceneAuthentification);
 		});
 
 		// Action sur le bouton Rechercher (à cotés de la barre de recherche)
@@ -562,7 +556,7 @@ public class FenetrePrincipale extends BorderPane {
 			alertSupp.setHeaderText("Êtes-vous sûr de vouloir supprimer ce stagiaire ?");
 			alertSupp.setContentText(stagiaireSelectionne.toString());
 			DialogPane dialogPaneSupp = alertSupp.getDialogPane();
-			dialogPaneSupp.setStyle("-fx-font-family: Arial");
+			dialogPaneSupp.setStyle("-fx-font-family: Arial; -fx-font-size: 11px; fx-font-weight:bold");
 
 			Optional<ButtonType> result = alertSupp.showAndWait();
 			if (result.get() == ButtonType.OK) {
@@ -583,6 +577,7 @@ public class FenetrePrincipale extends BorderPane {
 		});
 
 		// Action sur le bouton Imprimer
+		
 		imprimerBtn.setOnAction(event -> {
 			try {
 				// Créer un fileChooser pour sélectionner le dossier de destination
@@ -631,7 +626,6 @@ public class FenetrePrincipale extends BorderPane {
 					// Ajouter la table au document PDF
 					document.add(table);
 					document.close();
-					System.out.println("Le fichier PDF a été généré avec succès !");
 				}
 			} catch (Exception e) {
 

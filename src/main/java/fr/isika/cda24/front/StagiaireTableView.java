@@ -25,11 +25,11 @@ public class StagiaireTableView extends TableView<Stagiaire> {
 	public StagiaireTableView() {
 		super();
 
-		this.setStyle("-fx-background-color: white; -fx-table-cell-border-color: whitesmoke;");
+		this.setStyle("-fx-background-color: transparent; -fx-table-cell-border-color: whitesmoke;");
 		// Définir les styles pour les en-têtes de colonnes par défaut
-		System.setProperty("com.sun.javafx.scene.control.skin.ColumnHeaderBackgroundFill", "white");
+		System.setProperty("com.sun.javafx.scene.control.skin.ColumnHeaderBackgroundFill", "transparent");
 		System.setProperty("com.sun.javafx.scene.control.skin.ColumnHeaderFontStyle",
-				"-fx-text-fill: white; -fx-font-weight: bold;");
+				"-fx-text-fill: transparent; -fx-font-weight: bold;");
 
 		this.setEditable(true);
 		this.setPrefWidth(800);
@@ -37,7 +37,8 @@ public class StagiaireTableView extends TableView<Stagiaire> {
 		// Appliquer des styles en ligne à la TableView
 		// this.lookup(".column-header").setStyle("-fx-background-color: #2c3e50;
 		// -fx-text-fill: white; -fx-font-weight: bold; -fx-border-color: lightgrey;");
-
+			
+		
 		// Créer des colonnes pour la TableView
 		TableColumn<Stagiaire, String> nomCol = new TableColumn<>("Nom");
 		nomCol.setMinWidth(50);
