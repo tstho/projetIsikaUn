@@ -1,10 +1,15 @@
 package fr.isika.cda24.front;
 
+
+import javafx.scene.image.Image;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 
 import fr.isika.cda24.model.ArbreBinaireRecherche;
 import fr.isika.cda24.model.ListeStagiaire;
@@ -39,15 +44,17 @@ public class App extends Application {
 	}
 	
     @Override
-    public void start(Stage stageMain) {
+    public void start(Stage stageMain) throws FileNotFoundException {
     	
     	stage = stageMain;
     	
     	FenetreAuthentification fenetreAuthentification = new FenetreAuthentification(liste, abr);
     	
-    	sceneAuthentification = new Scene (fenetreAuthentification, 400, 400);
+    	sceneAuthentification = new Scene (fenetreAuthentification, 400, 420);
     	
     	stage.setTitle("Annuaire de Stagiaires");
+    	Image icone = new Image(new FileInputStream("src/image/icone.png"));
+    	stage.getIcons().add(icone);
         stage.setScene(sceneAuthentification);
         stage.show();
     }
