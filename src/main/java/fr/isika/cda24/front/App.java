@@ -50,9 +50,9 @@ public class App extends Application {
     	
     	FenetreAuthentification fenetreAuthentification = new FenetreAuthentification(liste, abr);
     	
-    	sceneAuthentification = new Scene (fenetreAuthentification, 400, 420);
+    	sceneAuthentification = new Scene (fenetreAuthentification, 450, 600);
     	
-    	stage.setTitle("Annuaire de Stagiaires");
+    	stage.setTitle(" Annuaire de Stagiaires");
     	Image icone = new Image(new FileInputStream("src/image/icone.png"));
     	stage.getIcons().add(icone);
         stage.setScene(sceneAuthentification);

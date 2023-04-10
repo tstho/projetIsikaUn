@@ -19,6 +19,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
@@ -36,61 +37,109 @@ public class FenetreAuthentification extends BorderPane {
 		super();
 		this.liste = listeRecu;
 		this.abr = abrRecu;
-		
-		// Création des éléments de la fenêtre d'authentification
+
+		// Création de la VBox pour la fenêtre d'authentification
 		VBox authentificationBox = new VBox();
 		authentificationBox.setStyle("-fx-background-color:papayawhip");
 		
-		//HBox contenant le logo
-		HBox hBox = new HBox();
-		hBox.setStyle("-fx-background-color:papayawhip");
-		hBox.setPadding(new Insets(20, 0, 20, 0));
-		hBox.setAlignment(Pos.CENTER);
-		this.setTop(hBox);
-		
-		//logo ISIKA
+		// HBox contenant le logo
+		HBox hBoxLogo = new HBox();
+		hBoxLogo.setStyle("-fx-background-color:papayawhip");
+		hBoxLogo.setAlignment(Pos.CENTER);
+
+		// logo ISIKA
 		try {
 			Image image = new Image(new FileInputStream("src/image/Logo_ISIKA.png"));
 			ImageView imageView = new ImageView(image);
+			imageView.setPreserveRatio(true);
 			imageView.setX(50);
 			imageView.setY(25);
 			imageView.setFitHeight(150);
 			imageView.setFitWidth(300);
 			Group grpTest = new Group(imageView);
-			hBox.getChildren().add(grpTest);
+			hBoxLogo.getChildren().add(grpTest);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		//Création du formulaire de login/mot de passe 
+		
+		// Création du formulaire de login/mot de passe
+		Label lblTitre = new Label ("ANNUAIRE DE STAGIAIRES");
 		Label nomUtilisateurLabel = new Label("Identifiant administrateur :");
 		nomUtilisateurTextField = new TextField();
 		Label motDePasseLabel = new Label("Mot de passe :");
 		motDePassePasswordField = new PasswordField();
+		//motDePassePasswordField.setText("Mot de passe");
 		validerBtn = new Button("Valider");
 		entrezBtn = new Button("Accès visiteur");
 		
-		//style du formulaire
-		 nomUtilisateurTextField.setStyle ("-fx-background-radius:5%/100%");
-		 motDePassePasswordField.setStyle ("-fx-background-radius:5%/100%");
-		 validerBtn.setStyle("-fx-background-color: #EE774F");
-		 validerBtn.setFont(Font.font("Arial", FontWeight.BOLD, 12));
-		 entrezBtn.setStyle("-fx-background-color: lightsalmon");
-		 entrezBtn.setFont(Font.font("Arial", FontWeight.BOLD, 12));
-	 
+//		nomUtilisateurTextField.setOnMouseClicked(event -> {
+//			if (nomUtilisateurTextField.getText().equals("Identifiant administrateur")) {
+//				nomUtilisateurTextField.setText("");
+//			}
+//		});
+//
+//		nomUtilisateurTextField.focusedProperty().addListener((obs, oldVal, newVal) -> {
+//			if (!newVal) { // Lorsque le focus est perdu
+//				if (nomUtilisateurTextField.getText().isEmpty()) {
+//					nomUtilisateurTextField.setText("Identifiant administrateur");
+//				}
+//			}
+//		});
+//		
+//		motDePassePasswordField.setOnMouseClicked(event -> {
+//			if (motDePassePasswordField.getText().equals("Mot de passe")) {
+//				motDePassePasswordField.setText("");
+//			}
+//		});
+//
+//		motDePassePasswordField.focusedProperty().addListener((obs, oldVal, newVal) -> {
+//			if (!newVal) { // Lorsque le focus est perdu
+//				if (motDePassePasswordField.getText().isEmpty()) {
+//					motDePassePasswordField.setText("Mot de passe");
+//				}
+//			}
+//		});
+//		
+
+		// style du formulaire
+		lblTitre.setFont(Font.font("Arial", FontWeight.BOLD, 23));
+		lblTitre.setTextFill(Color.web("#454343"));
+		nomUtilisateurLabel.setPadding(new Insets(20,0,0,0));
+		nomUtilisateurTextField.setStyle("-fx-background-radius:5%/100%");
+		motDePassePasswordField.setStyle("-fx-background-radius:5%/100%");
+		nomUtilisateurTextField.setMaxWidth(300);
+		motDePassePasswordField.setMaxWidth(300);
+		validerBtn.setStyle("-fx-background-color: #EE774F");
+		validerBtn.setFont(Font.font("Arial", FontWeight.BOLD, 12));
+		validerBtn.setPrefWidth(120);
+		validerBtn.setPrefHeight(25);
+		entrezBtn.setStyle("-fx-background-color: lightsalmon");
+		entrezBtn.setFont(Font.font("Arial", FontWeight.BOLD, 12));
+		entrezBtn.setPrefWidth(120);
+		entrezBtn.setPrefHeight(25);
+
+		//VBox pour les boutons
+		VBox vbBoutons = new VBox();
+		vbBoutons.setStyle("-fx-background-color:papayawhip");
+		vbBoutons.setAlignment(Pos.CENTER);
+		vbBoutons.setSpacing(15);
+		vbBoutons.setPadding(new Insets(10, 0, 20, 0));
+		vbBoutons.getChildren().addAll(validerBtn, entrezBtn);
+
 		// Remplissage de la vbox
-		authentificationBox.getChildren().addAll(nomUtilisateurLabel, nomUtilisateurTextField, motDePasseLabel,
-				motDePassePasswordField, validerBtn, entrezBtn);
+		authentificationBox.getChildren().addAll(hBoxLogo, lblTitre, nomUtilisateurLabel, nomUtilisateurTextField, motDePasseLabel,
+				motDePassePasswordField, vbBoutons);
 		authentificationBox.setAlignment(Pos.CENTER);
 		authentificationBox.setSpacing(12);
-		authentificationBox.setPadding(new Insets(0,50,0,50));
+		authentificationBox.setPadding(new Insets(0, 50, 20, 50));
 		
+
 		// Placement au centre de la borderPane
 		this.setCenter(authentificationBox);
 		this.setStyle("-fx-font-family: Arial");
-		
-		
+
 		// Action sur le bouton "Entrez" de la fenêtre d'authentification
 		entrezBtn.setOnAction(event -> {
 			FenetrePrincipale fenetrePrincipale = new FenetrePrincipale(false, liste, abr);
