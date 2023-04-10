@@ -500,7 +500,7 @@ public class FenetrePrincipale extends BorderPane {
 		idBtn.setOnAction(event -> {
 			// Créer une nouvelle instance de la fenêtre d'authentification
 			FenetreAuthentification fenetreAuthentification = new FenetreAuthentification(liste, arbreBinaire);
-			sceneAuthentification = new Scene (fenetreAuthentification, 400, 400);
+			sceneAuthentification = new Scene (fenetreAuthentification, 450, 600);
 			// Remplacer la scène actuelle par la scène d'authentification initiale
 			Stage stage = App.getStage();
 			stage.setScene(sceneAuthentification);
