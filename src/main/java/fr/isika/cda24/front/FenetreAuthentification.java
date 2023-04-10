@@ -30,13 +30,9 @@ public class FenetreAuthentification extends BorderPane {
 	private Button validerBtn;
 	private Button entrezBtn;
 	private static Scene scenePrincipale;
-	private ListeStagiaire liste;
-	private ArbreBinaireRecherche abr;
 
-	public FenetreAuthentification(ListeStagiaire listeRecu, ArbreBinaireRecherche abrRecu) {
+	public FenetreAuthentification() {
 		super();
-		this.liste = listeRecu;
-		this.abr = abrRecu;
 
 		// Création de la VBox pour la fenêtre d'authentification
 		VBox authentificationBox = new VBox();
@@ -112,7 +108,7 @@ public class FenetreAuthentification extends BorderPane {
 
 		// Action sur le bouton "Entrez" de la fenêtre d'authentification
 		entrezBtn.setOnAction(event -> {
-			FenetrePrincipale fenetrePrincipale = new FenetrePrincipale(false, liste, abr);
+			FenetrePrincipale fenetrePrincipale = new FenetrePrincipale(false);
 			scenePrincipale = new Scene(fenetrePrincipale, 600, 700);
 			App.getStage().setScene(scenePrincipale);
 		});
@@ -122,7 +118,7 @@ public class FenetreAuthentification extends BorderPane {
 			String motDePasse = motDePassePasswordField.getText();
 			// Vérifier si les identifiants de connexion sont corrects
 			if (nomUtilisateur.equals("admin") && motDePasse.equals("admin")) {
-				FenetrePrincipale fenetrePrincipale = new FenetrePrincipale(true, liste, abr);
+				FenetrePrincipale fenetrePrincipale = new FenetrePrincipale(true);
 				scenePrincipale = new Scene(fenetrePrincipale, 600, 700);
 				App.getStage().setScene(scenePrincipale);
 			} else {

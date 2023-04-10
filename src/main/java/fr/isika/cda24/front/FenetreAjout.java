@@ -346,28 +346,29 @@ public class FenetreAjout extends BorderPane {
 				alertSelec.showAndWait();
 				return;
 			} else {
-				// Alerte de confirmation
+				// Récupérer les valeurs des attribut de sstagiaire entrées dans les champs de
+				// texte
+				String nomAdd = nomTextFieldAjouter.getText().isEmpty() ? null : nomTextFieldAjouter.getText();
+				String prenomAdd = prenomTextFieldAjouter.getText().isEmpty() ? null
+						: prenomTextFieldAjouter.getText();
+				String departementAdd = departementTextFieldAjouter.getText().isEmpty() ? null
+						: departementTextFieldAjouter.getText();
+				String formationAdd = formationTextFieldAjouter.getText().isEmpty() ? null
+						: formationTextFieldAjouter.getText();
+				String anneeAdd = anneeTextFieldAjouter.getText().isEmpty() ? null
+						: anneeTextFieldAjouter.getText();
+				
+				// Alerte de confirmation 
 				Alert alertSupp = new Alert(Alert.AlertType.CONFIRMATION);
 				alertSupp.setTitle("Confirmation d'ajout");
 				alertSupp.setHeaderText("Êtes-vous sûr de vouloir ajouter ce stagiaire ?");
-				alertSupp.setContentText(fenetrePrincipale.getStagiaireOriginal().toString());
+				alertSupp.setContentText(nomAdd +" "+ prenomAdd +" - " + departementAdd+" - "+formationAdd+ " - "+anneeAdd);
 				DialogPane dialogPaneSupp = alertSupp.getDialogPane();
 				dialogPaneSupp.setStyle("-fx-font-family: Arial");
 				fenetrePrincipale.getStagiaireTableView().getItems().clear();
 				Optional<ButtonType> result = alertSupp.showAndWait();
 				
 				if (result.get() == ButtonType.OK) {
-					// Récupérer les valeurs des attribut de sstagiaire entrées dans les champs de
-					// texte
-					String nomAdd = nomTextFieldAjouter.getText().isEmpty() ? null : nomTextFieldAjouter.getText();
-					String prenomAdd = prenomTextFieldAjouter.getText().isEmpty() ? null
-							: prenomTextFieldAjouter.getText();
-					String departementAdd = departementTextFieldAjouter.getText().isEmpty() ? null
-							: departementTextFieldAjouter.getText();
-					String formationAdd = formationTextFieldAjouter.getText().isEmpty() ? null
-							: formationTextFieldAjouter.getText();
-					String anneeAdd = anneeTextFieldAjouter.getText().isEmpty() ? null
-							: anneeTextFieldAjouter.getText();
 					
 					// Création du stagiaire à ajouter
 					Stagiaire stagiaireAdd = new Stagiaire(nomAdd, prenomAdd, departementAdd, formationAdd, anneeAdd);

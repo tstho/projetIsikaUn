@@ -33,14 +33,7 @@ public class App extends Application {
 	private ArbreBinaireRecherche abr = new ArbreBinaireRecherche();
 	
 	public void init() {
-		//Si le fichier binaire existe déjà, on l'utilise pour remplir l'abre et la liste
-		File fichierBinaire = new File("src/fichiers/stagiaires.bin");
-		if(fichierBinaire.isFile())
-		{ 
-			abr.initialiserArbreFichier();
-			liste = abr.affichageInfixe(liste);
-			
-		}
+
 	}
 	
     @Override
@@ -48,7 +41,7 @@ public class App extends Application {
     	
     	stage = stageMain;
     	
-    	FenetreAuthentification fenetreAuthentification = new FenetreAuthentification(liste, abr);
+    	FenetreAuthentification fenetreAuthentification = new FenetreAuthentification();
     	
     	sceneAuthentification = new Scene (fenetreAuthentification, 450, 600);
     	

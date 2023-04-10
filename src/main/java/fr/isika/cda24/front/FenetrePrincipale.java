@@ -89,23 +89,30 @@ public class FenetrePrincipale extends BorderPane {
 	private static Scene sceneAuthentification;
 
 	private Boolean admin = false;
-	
-	
+
 	/**
 	 * Constructeur de la classe FenetrePrincipale.
 	 * 
-	 * @param admin un booléen indiquant si l'utilisateur est administrateur ou non.
+	 * @param admin     un booléen indiquant si l'utilisateur est administrateur ou
+	 *                  non.
 	 * @param listeRecu une liste de stagiaires.
-	 * @param abrRecu un arbre binaire de recherche construit depuis un fichier binaire.
+	 * @param abrRecu   un arbre binaire de recherche construit depuis un fichier
+	 *                  binaire.
 	 */
-	public FenetrePrincipale(Boolean admin, ListeStagiaire listeRecu, ArbreBinaireRecherche abrRecu) {
+	public FenetrePrincipale(Boolean admin) {
 		super();
 		arbreBinaire = new ArbreBinaireRecherche();
 		stagiaireTableView = new StagiaireTableView();
 		liste = new ListeStagiaire();
+		
+		// Si le fichier binaire existe déjà, on l'utilise pour remplir l'abre et la
+		// liste
+		File fileBinaire = new File("src/fichiers/stagiaires.bin");
+		if (fileBinaire.isFile()) {
+			arbreBinaire.initialiserArbreFichier();
+			liste = arbreBinaire.affichageInfixe(liste);
 
-		liste = listeRecu;
-		arbreBinaire = abrRecu;
+		}
 
 // Création des éléments graphiques
 
@@ -485,6 +492,7 @@ public class FenetrePrincipale extends BorderPane {
 			}
 		});
 
+		// Action du bouton "Aide"
 		aideBtn.setOnAction(e -> {
 
 			Desktop desktop = Desktop.getDesktop();
@@ -499,8 +507,8 @@ public class FenetrePrincipale extends BorderPane {
 		// Action du bouton "Authentification"
 		idBtn.setOnAction(event -> {
 			// Créer une nouvelle instance de la fenêtre d'authentification
-			FenetreAuthentification fenetreAuthentification = new FenetreAuthentification(liste, arbreBinaire);
-			sceneAuthentification = new Scene (fenetreAuthentification, 450, 600);
+			FenetreAuthentification fenetreAuthentification = new FenetreAuthentification();
+			sceneAuthentification = new Scene(fenetreAuthentification, 450, 600);
 			// Remplacer la scène actuelle par la scène d'authentification initiale
 			Stage stage = App.getStage();
 			stage.setScene(sceneAuthentification);
@@ -514,7 +522,6 @@ public class FenetrePrincipale extends BorderPane {
 			// Rechercher les stagiaires correspondant aux critères de recherche dans
 			// l'arbre binaire
 			stagiaireTrouveSimple = arbreBinaire.rechercher(attribut, valeur);
-			stagiaireTrouveSimple.afficherStagiaire();
 			ObservableList<Stagiaire> stagiaires = FXCollections
 					.observableArrayList(stagiaireTrouveSimple.getListeStagiaire());
 			stagiaireTableView.getItems().addAll(stagiaires);
@@ -577,7 +584,7 @@ public class FenetrePrincipale extends BorderPane {
 		});
 
 		// Action sur le bouton Imprimer
-		
+
 		imprimerBtn.setOnAction(event -> {
 			try {
 				// Créer un fileChooser pour sélectionner le dossier de destination
@@ -610,7 +617,7 @@ public class FenetrePrincipale extends BorderPane {
 						abr.initialiserArbreFichier();
 						testListe = abr.affichageInfixe(testListe);
 					}
-					testListe.afficherStagiaire();
+				//	testListe.afficherStagiaire();
 					for (Stagiaire stagiaire : testListe.getListeStagiaire()) {
 						PdfPCell cell = new PdfPCell(new Phrase(stagiaire.getNom()));
 						table.addCell(cell);
@@ -637,7 +644,7 @@ public class FenetrePrincipale extends BorderPane {
 
 		// Envoi vers le formulaire Recherche avancée
 		fenetreRechercheAvancee = new FenetreRechercheAvancee(arbreBinaire, stagiairesImportes, this);
-		sceneRechercheAvancee = new Scene(fenetreRechercheAvancee, 600, 600);
+		sceneRechercheAvancee = new Scene(fenetreRechercheAvancee, 600, 700);
 		rechercheAvanceBtn.setOnAction(event -> {
 			// Aller vers le formulaire
 			App.getStage().setScene(sceneRechercheAvancee);
@@ -645,7 +652,7 @@ public class FenetrePrincipale extends BorderPane {
 
 		// Envoi vers le formulaire Ajouter
 		fenetreAjout = new FenetreAjout(arbreBinaire, stagiairesImportes, this);
-		sceneAjout = new Scene(fenetreAjout, 600, 600);
+		sceneAjout = new Scene(fenetreAjout, 600, 700);
 		ajouterBtn.setOnAction(event -> {
 			// Aller vers le formulaire
 			App.getStage().setScene(sceneAjout);
@@ -653,7 +660,7 @@ public class FenetrePrincipale extends BorderPane {
 
 		// Envoi vers le formulaire Modifier
 		fenetreModification = new FenetreModification(arbreBinaire, stagiairesImportes, this, stagiaireOriginal);
-		sceneModification = new Scene(fenetreModification, 600, 600);
+		sceneModification = new Scene(fenetreModification, 600, 700);
 		modifierBtn.setOnAction(event -> {
 			// Recupérer le stagiaire à modifier en cliquant dessus dans la tableview
 			stagiaireOriginal = stagiaireTableView.getSelectionModel().getSelectedItem();
@@ -679,85 +686,95 @@ public class FenetrePrincipale extends BorderPane {
 		});
 
 	}
-	
-    /**
-     * Obtient l'objet StagiaireTableView.
-     * @return L'objet StagiaireTableView.
-     */
-    public StagiaireTableView getStagiaireTableView() {
-        return stagiaireTableView;
-    }
-    
-    /**
-     * Définit l'objet StagiaireTableView.
-     * @param stagiaireTableView L'objet StagiaireTableView à définir.
-     */
-    public void setStagiaireTableView(StagiaireTableView stagiaireTableView) {
-        this.stagiaireTableView = stagiaireTableView;
-    }
-    
-    /**
-     * Obtient le statut d'administrateur.
-     * @return Le statut d'administrateur.
-     */
-    public Boolean getAdmin() {
-        return admin;
-    }
-    
-    /**
-     * Définit le statut d'administrateur.
-     * @param admin Le statut d'administrateur à définir.
-     */
-    public void setAdmin(Boolean admin) {
-        this.admin = admin;
-    }
-    
-    /**
-     * Obtient l'arbre binaire de recherche.
-     * @return L'arbre binaire de recherche.
-     */
-    public ArbreBinaireRecherche getArbreBinaire() {
-        return arbreBinaire;
-    }
-    
-    /**
-     * Définit l'arbre binaire de recherche.
-     * @param arbreBinaire L'arbre binaire de recherche à définir.
-     */
-    public void setArbreBinaire(ArbreBinaireRecherche arbreBinaire) {
-        this.arbreBinaire = arbreBinaire;
-    }
-    
-    /**
-     * Obtient la liste de stagiaires importés.
-     * @return La liste de stagiaires importés.
-     */
-    public ListeStagiaire getStagiairesImportes() {
-        return stagiairesImportes;
-    }
-    
-    /**
-     * Obtient la liste de stagiaires importés.
-     * @return La liste de stagiaires importés.
-     */
-    public ListeStagiaire getListeStagiairesImportes() {
-        return stagiairesImportes;
-    }
-    
-    /**
-     * Obtient l'objet Stagiaire d'origine.
-     * @return L'objet Stagiaire d'origine.
-     */
-    public Stagiaire getStagiaireOriginal() {
-        return stagiaireOriginal;
-    }
-    
-    /**
-     * Définit l'objet Stagiaire d'origine.
-     * @param stagiaireOriginal L'objet Stagiaire d'origine à définir.
-     */
-    public void setStagiaireOriginal(Stagiaire stagiaireOriginal) {
-        this.stagiaireOriginal = stagiaireOriginal;
-    }
+
+	/**
+	 * Obtient l'objet StagiaireTableView.
+	 * 
+	 * @return L'objet StagiaireTableView.
+	 */
+	public StagiaireTableView getStagiaireTableView() {
+		return stagiaireTableView;
+	}
+
+	/**
+	 * Définit l'objet StagiaireTableView.
+	 * 
+	 * @param stagiaireTableView L'objet StagiaireTableView à définir.
+	 */
+	public void setStagiaireTableView(StagiaireTableView stagiaireTableView) {
+		this.stagiaireTableView = stagiaireTableView;
+	}
+
+	/**
+	 * Obtient le statut d'administrateur.
+	 * 
+	 * @return Le statut d'administrateur.
+	 */
+	public Boolean getAdmin() {
+		return admin;
+	}
+
+	/**
+	 * Définit le statut d'administrateur.
+	 * 
+	 * @param admin Le statut d'administrateur à définir.
+	 */
+	public void setAdmin(Boolean admin) {
+		this.admin = admin;
+	}
+
+	/**
+	 * Obtient l'arbre binaire de recherche.
+	 * 
+	 * @return L'arbre binaire de recherche.
+	 */
+	public ArbreBinaireRecherche getArbreBinaire() {
+		return arbreBinaire;
+	}
+
+	/**
+	 * Définit l'arbre binaire de recherche.
+	 * 
+	 * @param arbreBinaire L'arbre binaire de recherche à définir.
+	 */
+	public void setArbreBinaire(ArbreBinaireRecherche arbreBinaire) {
+		this.arbreBinaire = arbreBinaire;
+	}
+
+	/**
+	 * Obtient la liste de stagiaires importés.
+	 * 
+	 * @return La liste de stagiaires importés.
+	 */
+	public ListeStagiaire getStagiairesImportes() {
+		return stagiairesImportes;
+	}
+
+	/**
+	 * Obtient la liste de stagiaires importés.
+	 * 
+	 * @return La liste de stagiaires importés.
+	 */
+	public ListeStagiaire getListeStagiairesImportes() {
+		return stagiairesImportes;
+	}
+
+	/**
+	 * Obtient l'objet Stagiaire d'origine.
+	 * 
+	 * @return L'objet Stagiaire d'origine.
+	 */
+	public Stagiaire getStagiaireOriginal() {
+		return stagiaireOriginal;
+	}
+
+	/**
+	 * Définit l'objet Stagiaire d'origine.
+	 * 
+	 * @param stagiaireOriginal L'objet Stagiaire d'origine à définir.
+	 */
+	public void setStagiaireOriginal(Stagiaire stagiaireOriginal) {
+		this.stagiaireOriginal = stagiaireOriginal;
+	}
 
 }
