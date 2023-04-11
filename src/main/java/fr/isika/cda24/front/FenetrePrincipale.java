@@ -496,7 +496,7 @@ public class FenetrePrincipale extends BorderPane {
 		aideBtn.setOnAction(e -> {
 
 			Desktop desktop = Desktop.getDesktop();
-			File pdfFile = new File("src/pdf/annuaire.pdf");
+			File pdfFile = new File("src/pdf/aide.pdf");
 			try {
 				desktop.open(pdfFile);
 			} catch (Exception e1) {
@@ -609,16 +609,11 @@ public class FenetrePrincipale extends BorderPane {
 					table.addCell(cellFormation);
 					PdfPCell cellAnnee = new PdfPCell(new Phrase("Année"));
 					table.addCell(cellAnnee);
-					// Ajouter les lignes de données à la table
-					ListeStagiaire testListe = new ListeStagiaire();
-					ArbreBinaireRecherche abr = new ArbreBinaireRecherche();
-					File fichierBinaire = new File("src/fichiers/stagiaires.bin");
-					if (fichierBinaire.isFile()) {
-						abr.initialiserArbreFichier();
-						testListe = abr.affichageInfixe(testListe);
-					}
-				//	testListe.afficherStagiaire();
-					for (Stagiaire stagiaire : testListe.getListeStagiaire()) {
+					
+					//On récupère les stagiaires affiché dans le tableau
+					ObservableList<Stagiaire> stagiaires = stagiaireTableView.getItems();
+					//On les insère dans le pdf
+					for (Stagiaire stagiaire : stagiaires) {
 						PdfPCell cell = new PdfPCell(new Phrase(stagiaire.getNom()));
 						table.addCell(cell);
 						PdfPCell cell2 = new PdfPCell(new Phrase(stagiaire.getPrenom()));

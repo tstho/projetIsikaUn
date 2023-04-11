@@ -284,7 +284,7 @@ public class FenetreRechercheAvancee extends BorderPane {
 		aideBtn.setOnAction(e -> {
 
 			Desktop desktop = Desktop.getDesktop();
-			File pdfFile = new File("src/pdf/annuaire.pdf");
+			File pdfFile = new File("src/pdf/aide.pdf");
 			try {
 				desktop.open(pdfFile);
 			} catch (Exception e1) {
@@ -308,7 +308,6 @@ public class FenetreRechercheAvancee extends BorderPane {
 			String annee = anneeTextField.getText().isEmpty() ? null : anneeTextField.getText();
 			// Effectuer la recherche multicrière et mettre à jour la tableView
 			stagiaireTrouve = arbreImporte.rechercherMultiCritere(nom, prenom, departement, formation, annee);
-			stagiaireTrouve.afficherStagiaire();
 			ObservableList<Stagiaire> stagiaires = FXCollections
 					.observableArrayList(stagiaireTrouve.getListeStagiaire());
 			fenetrePrincipale.getStagiaireTableView().getItems().addAll(stagiaires);

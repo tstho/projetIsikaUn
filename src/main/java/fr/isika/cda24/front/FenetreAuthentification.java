@@ -11,6 +11,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -124,9 +125,11 @@ public class FenetreAuthentification extends BorderPane {
 			} else {
 				// Afficher une alerte si les identifiants sont incorrects
 				Alert alert = new Alert(Alert.AlertType.WARNING);
+				DialogPane dialogPaneSelec = alert.getDialogPane();
+				dialogPaneSelec.setStyle("-fx-font-family: Arial");
 				alert.setTitle("Authentification");
 				alert.setHeaderText("Identifiants incorrects");
-				alert.setContentText("Le nom d'utilisateur ou le mot de passe est incorrect.");
+				alert.setContentText("L'identifiant administrateur ou le mot de passe est incorrect.");
 				alert.showAndWait();
 			}
 		});

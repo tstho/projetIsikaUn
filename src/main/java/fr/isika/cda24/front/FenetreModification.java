@@ -274,7 +274,7 @@ public class FenetreModification extends BorderPane {
 		aideBtn.setOnAction(e -> {
 
 			Desktop desktop = Desktop.getDesktop();
-			File pdfFile = new File("src/pdf/annuaire.pdf");
+			File pdfFile = new File("src/pdf/aide.pdf");
 			try {
 				desktop.open(pdfFile);
 			} catch (Exception e1) {
